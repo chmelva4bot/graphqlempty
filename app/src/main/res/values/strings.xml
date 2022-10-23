@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">graphqlEmpty</string>
+    <string name="GQLLaunchList">GQLLaunchList</string>
+    <string name="title_GQLLaunchList">Launch List</string>
 </resources>
