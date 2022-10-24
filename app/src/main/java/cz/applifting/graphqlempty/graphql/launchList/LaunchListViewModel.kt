@@ -1,13 +1,10 @@
-package cz.applifting.graphqlempty.graphql
+package cz.applifting.graphqlempty.graphql.launchList
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.api.Optional
 import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.BaseViewModel
-import cz.applifting.graphqlempty.common.Reducer
 import cz.applifting.graphqlempty.ui.theme.apolloClient
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 

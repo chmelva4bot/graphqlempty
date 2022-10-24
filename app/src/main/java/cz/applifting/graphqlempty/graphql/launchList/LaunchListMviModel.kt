@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.graphql
+package cz.applifting.graphqlempty.graphql.launchList
 
 import androidx.compose.runtime.Immutable
 import cz.applifting.graphqlEmpty.LaunchListQuery
