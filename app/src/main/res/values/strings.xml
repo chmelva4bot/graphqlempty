@@ -4,4 +4,6 @@
     <string name="title_GQLLaunchList">Launch List</string>
     <string name="GQLLaunchDetail">GQLLaunchDetail</string>
     <string name="title_GQLLaunchDetail">GQLLaunchDetail</string>
+    <string name="GQLLogin">GQLLogin</string>
+    <string name="title_GQLLogin">Login</string>
 </resources>

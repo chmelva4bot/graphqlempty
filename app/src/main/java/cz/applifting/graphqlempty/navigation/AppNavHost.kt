@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import cz.applifting.graphqlempty.graphql.launchList.LaunchListScreen
 import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailScreen
+import cz.applifting.graphqlempty.graphql.login.LoginScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -17,5 +18,6 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(Screen.GraphQLLaunchDetail.route, arguments = listOf(navArgument("id") { type = NavType.StringType})) {
             LaunchDetailScreen(navController = navController, it.arguments?.getString("id") ?: "")
         }
+        composable(Screen.GraphQLLogin.route) { LoginScreen(navController = navController) }
     }
 }

@@ -61,6 +61,8 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
         val rocketType = state.data?.launch?.rocket?.type ?: ""
         val site = state.data?.launch?.site ?: ""
 
+        val btnText = if (state.data?.launch?.isBooked == true) "Cancel" else "Book Me"
+
 
         Column(
             modifier = Modifier
@@ -79,8 +81,10 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
                     Text(text = site, style = MaterialTheme.typography.caption)
                 }
             }
-            Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Book me")
+            Button(onClick = {
+                             //TODO
+                             }, modifier = Modifier.fillMaxWidth()) {
+                Text(text = btnText)
             }
         }
     }
