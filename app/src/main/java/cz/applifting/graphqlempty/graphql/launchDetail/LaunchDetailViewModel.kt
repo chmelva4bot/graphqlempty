@@ -6,6 +6,7 @@ import cz.applifting.graphqlEmpty.LaunchDetailsQuery
 import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.BaseViewModel
 import cz.applifting.graphqlempty.ui.theme.apolloClient
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,7 @@ class LaunchDetailViewModel: BaseViewModel<LaunchDetailState, LaunchDetailEvent,
     private fun fetchData(id: String) {
         viewModelScope.launch {
             sendEvent(LaunchDetailEvent.ShowLoading)
+            delay(1000)
             try {
                 val response = client.query(LaunchDetailsQuery(id)).execute()
                 sendEvent(
