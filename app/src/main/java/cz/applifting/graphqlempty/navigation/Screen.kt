@@ -14,6 +14,7 @@ sealed class Screen(
 ) {
 
     object GraphQLLaunchList: Screen("gqlLaunchList", R.string.GQLLaunchList, Icons.Default.RocketLaunch, R.string.title_GQLLaunchList)
+    object GraphQLLaunchDetail: Screen("gqlLaunchList/{id}", R.string.GQLLaunchDetail, Icons.Default.RocketLaunch, R.string.title_GQLLaunchDetail)
 
     companion object {
         fun findScreenByRoute(route: String): Screen {

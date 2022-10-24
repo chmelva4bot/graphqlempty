@@ -2,4 +2,6 @@
     <string name="app_name">graphqlEmpty</string>
     <string name="GQLLaunchList">GQLLaunchList</string>
     <string name="title_GQLLaunchList">Launch List</string>
+    <string name="GQLLaunchDetail">GQLLaunchDetail</string>
+    <string name="title_GQLLaunchDetail">GQLLaunchDetail</string>
 </resources>

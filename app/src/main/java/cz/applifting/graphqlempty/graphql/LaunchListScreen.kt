@@ -1,6 +1,7 @@
 package cz.applifting.graphqlempty.graphql
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,7 +68,8 @@ fun LaunchListScreen(navController: NavController) {
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .height(72.dp), verticalAlignment = Alignment.CenterVertically) {
+                .height(72.dp)
+                .clickable { scope.launch { navController.navigate("gqlLaunchList/${it.id}") } }, verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
                     model = it.mission?.missionPatch, contentDescription = null, modifier = Modifier
                         .size(40.dp)
