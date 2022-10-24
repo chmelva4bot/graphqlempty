@@ -60,6 +60,9 @@ dependencies {
     def nav_version = "2.5.2"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
 
 
     implementation("com.apollographql.apollo3:apollo-runtime:3.6.2")

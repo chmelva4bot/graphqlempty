@@ -20,6 +20,13 @@ class LaunchListViewModel: BaseViewModel<LaunchListState, LaunchListEvent, Launc
     override val state: StateFlow<LaunchListState>
         get() = reducer.state
 
+
+    init {
+        viewModelScope.launch {
+            handleAction(LaunchListAction.FetchData)
+        }
+    }
+
     override fun handleAction(action: LaunchListAction) {
         when(action) {
             is LaunchListAction.FetchData -> fetchData()
