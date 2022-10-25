@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailAction
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(navController: NavController) {
 
-    val viewModel: LoginViewModel = viewModel()
+    val viewModel: LoginViewModel = hiltViewModel()
     var state by remember { mutableStateOf(LoginState.initial()) }
 
     LaunchedEffect(true) {

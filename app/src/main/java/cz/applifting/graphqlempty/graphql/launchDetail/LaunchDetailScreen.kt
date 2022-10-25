@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 fun LaunchDetailScreen(navController: NavController, id: String) {
 
 
-    val viewModel: LaunchDetailViewModel = viewModel()
+    val viewModel: LaunchDetailViewModel = hiltViewModel()
     var state by remember { mutableStateOf(LaunchDetailState.initial())}
 
     LaunchedEffect(true) {

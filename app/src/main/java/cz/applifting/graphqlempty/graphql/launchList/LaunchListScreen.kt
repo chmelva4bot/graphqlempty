@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LaunchListScreen(navController: NavController) {
 
-    val viewModel: LaunchListViewModel = viewModel()
+    val viewModel: LaunchListViewModel = hiltViewModel()
     val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
