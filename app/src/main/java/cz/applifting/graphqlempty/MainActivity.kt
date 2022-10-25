@@ -33,9 +33,10 @@ import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.navigation.navDrawer.AppDrawer
 import cz.applifting.graphqlempty.navigation.navDrawer.NavDrawerItem
 import cz.applifting.graphqlempty.ui.theme.GraphqlEmptyTheme
-import cz.applifting.graphqlempty.ui.theme.apolloClient
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

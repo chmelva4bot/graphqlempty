@@ -1,17 +1,19 @@
 package cz.applifting.graphqlempty.graphql.launchList
 
 import androidx.lifecycle.viewModelScope
+import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.BaseViewModel
-import cz.applifting.graphqlempty.ui.theme.apolloClient
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LaunchListViewModel: BaseViewModel<LaunchListState, LaunchListEvent, LaunchListAction>() {
-
-    private val client = apolloClient
-
+@HiltViewModel
+class LaunchListViewModel @Inject constructor(
+    private val client: ApolloClient
+): BaseViewModel<LaunchListState, LaunchListEvent, LaunchListAction>() {
 
     override val reducer = LaunchListReducer(LaunchListState.initial())
     override val state: StateFlow<LaunchListState>
@@ -48,10 +50,6 @@ class LaunchListViewModel: BaseViewModel<LaunchListState, LaunchListEvent, Launc
             } catch (e: Exception) {
                sendEvent(LaunchListEvent.ShowError)
             }
-
-
-
-
         }
     }
 }

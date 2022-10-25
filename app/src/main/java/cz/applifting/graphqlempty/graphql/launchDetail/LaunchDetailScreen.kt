@@ -21,11 +21,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import cz.applifting.graphqlEmpty.LaunchDetailsQuery
+import cz.applifting.graphqlempty.graphql.login.User
+import cz.applifting.graphqlempty.navigation.Screen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -61,7 +64,9 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
         val rocketType = state.data?.launch?.rocket?.type ?: ""
         val site = state.data?.launch?.site ?: ""
 
-        val btnText = if (state.data?.launch?.isBooked == true) "Cancel" else "Book Me"
+        val token = User.getToken(LocalContext.current)
+
+        val btnText = if (token == null) "Log In" else if (state.data?.launch?.isBooked == true) "Cancel" else "Book Me"
 
 
         Column(
@@ -81,9 +86,17 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
                     Text(text = site, style = MaterialTheme.typography.caption)
                 }
             }
-            Button(onClick = {
-                             //TODO
-                             }, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    if (token == null) {
+                        navController.navigate(Screen.GraphQLLogin.route) {
+                            popUpTo(Screen.GraphQLLogin.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()) {
                 Text(text = btnText)
             }
         }
