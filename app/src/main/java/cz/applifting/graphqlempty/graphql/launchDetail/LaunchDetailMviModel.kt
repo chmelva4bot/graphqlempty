@@ -11,6 +11,8 @@ sealed class LaunchDetailEvent: Event {
     object ShowError: LaunchDetailEvent()
     object ShowLoading: LaunchDetailEvent()
     data class ShowData(val data: LaunchDetailsQuery.Data?): LaunchDetailEvent()
+
+    data class UpdateTripsBooked(val count: Int): LaunchDetailEvent()
 }
 
 sealed class LaunchDetailAction: Action {
@@ -23,9 +25,10 @@ sealed class LaunchDetailAction: Action {
 data class LaunchDetailState(
     val isLoading: Boolean,
     val isError: Boolean,
-    val data: LaunchDetailsQuery.Data?
+    val data: LaunchDetailsQuery.Data?,
+    val tripsBooked: Int
 ): State {
     companion object {
-        fun initial() = LaunchDetailState(false, false, null)
+        fun initial() = LaunchDetailState(false, false, null, 0)
     }
 }

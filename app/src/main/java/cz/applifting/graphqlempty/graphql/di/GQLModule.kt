@@ -35,6 +35,7 @@ object GQLModule {
     fun provideApolloClient(@GQLHttpClient client: OkHttpClient): ApolloClient {
         return ApolloClient.Builder()
             .serverUrl("https://apollo-fullstack-tutorial.herokuapp.com/graphql")
+            .webSocketServerUrl("wss://apollo-fullstack-tutorial.herokuapp.com/graphql")
             .okHttpClient(client)
             .build()
     }

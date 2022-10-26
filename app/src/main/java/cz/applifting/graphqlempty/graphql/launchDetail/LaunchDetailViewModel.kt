@@ -7,6 +7,7 @@ import cz.applifting.graphqlEmpty.BookTripMutation
 import cz.applifting.graphqlEmpty.CancelTripMutation
 import cz.applifting.graphqlEmpty.LaunchDetailsQuery
 import cz.applifting.graphqlEmpty.LaunchListQuery
+import cz.applifting.graphqlEmpty.TripsBookedSubscription
 import cz.applifting.graphqlempty.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,6 +25,12 @@ class LaunchDetailViewModel @Inject constructor(
         get() = reducer.state
 
     init {
+        viewModelScope.launch {
+            client.subscription(TripsBookedSubscription()).toFlow().collect {
+                val count = it.data?.tripsBooked ?: 0
+                sendEvent(LaunchDetailEvent.UpdateTripsBooked(count))
+            }
+        }
     }
 
     override fun handleAction(action: LaunchDetailAction) {

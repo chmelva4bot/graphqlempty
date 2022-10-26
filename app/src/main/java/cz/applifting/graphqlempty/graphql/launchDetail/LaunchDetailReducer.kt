@@ -14,6 +14,9 @@ class LaunchDetailReducer(initialState: LaunchDetailState): Reducer<LaunchDetail
             is LaunchDetailEvent.ShowData -> {
                 setState(oldState.copy(data = event.data, isError = false, isLoading = false))
             }
+            is LaunchDetailEvent.UpdateTripsBooked -> {
+                setState(oldState.copy(tripsBooked = event.count))
+            }
         }
     }
 }

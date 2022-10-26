@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +34,7 @@ import cz.applifting.graphqlempty.navigation.Screen
 import kotlinx.coroutines.launch
 
 @Composable
-fun LaunchDetailScreen(navController: NavController, id: String) {
+fun LaunchDetailScreen(navController: NavController, snackbarHostState: SnackbarHostState, id: String) {
 
 
     val viewModel: LaunchDetailViewModel = hiltViewModel()
@@ -44,6 +45,14 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
             viewModel.state.collect { state = it}
         }
         viewModel.handleAction(LaunchDetailAction.FetchData(id))
+    }
+
+    LaunchedEffect(state.tripsBooked) {
+        if (state.tripsBooked > 0) {
+            snackbarHostState.showSnackbar("${state.tripsBooked} trips(s) has(have) been booked\uD83D\uDE80\uD83D\uDE80")
+        } else if (state.tripsBooked == -1) {
+            snackbarHostState.showSnackbar("Trip canceled!")
+        }
     }
 
     if (state.isLoading) {
