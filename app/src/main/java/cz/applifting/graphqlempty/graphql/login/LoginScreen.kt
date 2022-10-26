@@ -36,6 +36,7 @@ fun LoginScreen(navController: NavController) {
 
     val viewModel: LoginViewModel = hiltViewModel()
     var state by remember { mutableStateOf(LoginState.initial()) }
+    val ctx = LocalContext.current
 
     LaunchedEffect(true) {
         this.launch {
@@ -43,13 +44,15 @@ fun LoginScreen(navController: NavController) {
         }
     }
 
-    if (state.isLoading) {
-        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+    LaunchedEffect(state.isDone) {
+        if (state.isDone) {
+            User.setToken(ctx, state.token)
+            navController.popBackStack()
+        }
     }
 
-    if (state.isDone) {
-        User.setToken(LocalContext.current, state.token)
-        navController.popBackStack()
+    if (state.isLoading) {
+        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     }
 
     if (state.isError) {

@@ -15,6 +15,8 @@ sealed class LaunchDetailEvent: Event {
 
 sealed class LaunchDetailAction: Action {
     data class FetchData(val id: String): LaunchDetailAction()
+    data class BookTrip(val id: String): LaunchDetailAction()
+    data class CancelTrip(val id: String): LaunchDetailAction()
 }
 
 @Immutable

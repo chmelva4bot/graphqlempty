@@ -95,7 +95,9 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
                                 inclusive = true
                             }
                         }
-                    }
+                    } else if (state.data?.launch?.isBooked != true) {
+                        viewModel.sendAction(LaunchDetailAction.BookTrip(id))
+                    } else viewModel.sendAction(LaunchDetailAction.CancelTrip(id))
                 },
                 modifier = Modifier.fillMaxWidth()) {
                 Text(text = btnText)
