@@ -12,7 +12,7 @@ class LaunchListReducer(initialState: LaunchListState): Reducer<LaunchListState,
                 setState(oldState.copy(isLoading = true, isError = false))
             }
             is LaunchListEvent.ShowData -> {
-                setState(oldState.copy(data = event.data, cursor = event.cursor, hasMore = event.hasMore))
+                setState(oldState.copy(data = event.data, cursor = event.cursor, hasMore = event.hasMore, isLoading = false))
             }
         }
     }

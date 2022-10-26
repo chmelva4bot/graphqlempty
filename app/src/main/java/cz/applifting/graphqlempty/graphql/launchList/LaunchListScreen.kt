@@ -1,6 +1,7 @@
 package cz.applifting.graphqlempty.graphql.launchList
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +16,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,11 +33,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import cz.applifting.graphqlempty.graphql.login.User
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,10 +52,16 @@ fun LaunchListScreen(navController: NavController) {
 
     var state by remember { mutableStateOf(LaunchListState.initial())}
 
+    val ctx = LocalContext.current
+
     LaunchedEffect(true) {
         this.launch {
             viewModel.state.collect { state = it}
         }
+    }
+
+    if (state.isLoading) {
+        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     }
 
     LazyColumn(
@@ -57,6 +69,11 @@ fun LaunchListScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
     ) {
+        item {
+            LaunchListHeader {
+                User.removeToken(ctx)
+            }
+        }
         items(state.data) {
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -109,7 +126,14 @@ fun LazyListState.OnBottomReached(
 
 @Composable
 fun LaunchListHeader(
-
+    onClick: () -> Unit
 ) {
-
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(56.dp)
+        .padding(horizontal = 56.dp, vertical = 8.dp)) {
+        OutlinedButton(onClick = onClick, modifier = Modifier.width(240.dp)) {
+            Text(text = "Log Out")
+        }
+    }
 }

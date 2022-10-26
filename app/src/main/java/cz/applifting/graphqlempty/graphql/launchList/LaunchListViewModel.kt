@@ -6,6 +6,7 @@ import com.apollographql.apollo3.api.Optional
 import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,6 +37,7 @@ class LaunchListViewModel @Inject constructor(
         viewModelScope.launch {
             sendEvent(LaunchListEvent.ShowLoading)
             try {
+                delay(1000)
                 val response = client.query(LaunchListQuery(Optional.Present(state.value.cursor))).execute()
                 val newLaunches = response.data?.launches?.launches?.filterNotNull() ?: listOf()
 

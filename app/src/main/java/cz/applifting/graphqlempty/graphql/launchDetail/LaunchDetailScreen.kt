@@ -57,7 +57,7 @@ fun LaunchDetailScreen(navController: NavController, id: String) {
     }
    
     
-    if (!state.isLoading && !state.isError && state.data != null) {
+    if (!state.isError && state.data != null) {
 
         val img = state.data?.launch?.mission?.missionPatch ?: ""
         val missionName = state.data?.launch?.mission?.name ?: ""
