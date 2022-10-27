@@ -46,9 +46,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (BuildConfig.DEBUG) {
-            Firebase.database.useEmulator("10.0.2.2", 9000)
-            Firebase.auth.useEmulator("10.0.2.2", 9099)
-            Firebase.storage.useEmulator("10.0.2.2", 9199)
+            Firebase.database.useEmulator("192.168.0.100", 9000)
+            Firebase.auth.useEmulator("192.168.0.100", 9099)
+            Firebase.storage.useEmulator("192.168.0.100", 9199)
         }
 
         setContent {
