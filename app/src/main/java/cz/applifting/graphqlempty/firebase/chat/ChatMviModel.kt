@@ -10,6 +10,8 @@ sealed class ChatEvent: Event {
     object ShowError: ChatEvent()
     object ShowLoading: ChatEvent()
     object AuthUser: ChatEvent()
+
+    data class UpdateMessages(val msgs: List<ChatMessage>): ChatEvent()
 }
 
 sealed class ChatAction: Action {
@@ -21,9 +23,10 @@ data class ChatState(
     val isLoading: Boolean,
     val isError: Boolean,
     val user: FirebaseUser?,
-    val isUserChecked: Boolean
+    val isUserChecked: Boolean,
+    val messages: List<ChatMessage>,
 ): State {
     companion object {
-        fun initial() = ChatState(false, false, null, false)
+        fun initial() = ChatState(false, false, null, false, listOf())
     }
 }
