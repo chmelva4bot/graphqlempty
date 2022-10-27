@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import cz.applifting.graphqlempty.firebase.chat.ChatScreen
+import cz.applifting.graphqlempty.firebase.login.FirebaseLoginScreen
 import cz.applifting.graphqlempty.graphql.launchList.LaunchListScreen
 import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailScreen
 import cz.applifting.graphqlempty.graphql.login.LoginScreen
@@ -22,5 +23,6 @@ fun AppNavHost(navController: NavHostController, snackbarHostState: SnackbarHost
         }
         composable(Screen.GraphQLLogin.route) { LoginScreen(navController = navController) }
         composable(Screen.FirebaseChat.route) { ChatScreen(navController = navController)}
+        composable(Screen.FirebaseLogin.route) { FirebaseLoginScreen(navController = navController) }
     }
 }

@@ -4,4 +4,14 @@
     <style name="Theme.GraphqlEmpty" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>
+
+    <style name="MyTheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorAccent">@color/purple_700</item>
+        <item name="android:colorBackground">@color/white</item>
+
+        <!-- On API 21+ you can use android:statusBarColor -->
+        <item name="colorPrimaryDark">@color/purple_700</item>
+    </style>
 </resources>

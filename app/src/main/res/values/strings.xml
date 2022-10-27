@@ -8,4 +8,6 @@
     <string name="title_GQLLogin">Login</string>
     <string name="FirebaseChat">firebaseChat</string>
     <string name="title_firebaseChat">Firebase Chat</string>
+    <string name="FirebaseLogin">firebaseLogin</string>
+    <string name="title_firebaseLogin">Firebase Login</string>
 </resources>

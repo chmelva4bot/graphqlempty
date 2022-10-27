@@ -18,11 +18,13 @@ sealed class Screen(
     object GraphQLLogin: Screen("gqlLogin", R.string.GQLLogin, Icons.Default.RocketLaunch, R.string.title_GQLLogin)
     object GraphQLLaunchDetail: Screen("gqlLaunchList/{id}", R.string.GQLLaunchDetail, Icons.Default.RocketLaunch, R.string.title_GQLLaunchDetail)
     object FirebaseChat: Screen("firebase/chat", R.string.FirebaseChat, Icons.Default.LocalFireDepartment, R.string.title_firebaseChat)
+    object FirebaseLogin: Screen("firebase/login", R.string.FirebaseLogin, Icons.Default.LocalFireDepartment, R.string.title_firebaseLogin)
 
     companion object {
         fun findScreenByRoute(route: String): Screen {
             return when(route) {
                 FirebaseChat.route -> FirebaseChat
+                FirebaseLogin.route -> FirebaseLogin
                 GraphQLLaunchDetail.route -> GraphQLLaunchDetail
                 GraphQLLogin.route -> GraphQLLogin
                 else -> GraphQLLaunchList
