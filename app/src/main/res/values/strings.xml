@@ -6,4 +6,6 @@
     <string name="title_GQLLaunchDetail">GQLLaunchDetail</string>
     <string name="GQLLogin">GQLLogin</string>
     <string name="title_GQLLogin">Login</string>
+    <string name="FirebaseChat">firebaseChat</string>
+    <string name="title_firebaseChat">Firebase Chat</string>
 </resources>
