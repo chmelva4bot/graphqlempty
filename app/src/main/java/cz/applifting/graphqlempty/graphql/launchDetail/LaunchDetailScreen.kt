@@ -24,20 +24,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import cz.applifting.graphqlEmpty.LaunchDetailsQuery
 import cz.applifting.graphqlempty.graphql.login.User
 import cz.applifting.graphqlempty.navigation.Screen
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LaunchDetailScreen(navController: NavController, snackbarHostState: SnackbarHostState, id: String) {
 
 
-    val viewModel: LaunchDetailViewModel = hiltViewModel()
+//    val viewModel: LaunchDetailViewModel = hiltViewModel()
+    val viewModel: LaunchDetailViewModel = koinViewModel()
     var state by remember { mutableStateOf(LaunchDetailState.initial())}
 
     LaunchedEffect(true) {

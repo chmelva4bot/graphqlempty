@@ -23,18 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailAction
-import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailState
-import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(navController: NavController) {
 
-    val viewModel: LoginViewModel = hiltViewModel()
+//    val viewModel: LoginViewModel = hiltViewModel()
+    val viewModel: LoginViewModel = koinViewModel()
     var state by remember { mutableStateOf(LoginState.initial()) }
     val ctx = LocalContext.current
 

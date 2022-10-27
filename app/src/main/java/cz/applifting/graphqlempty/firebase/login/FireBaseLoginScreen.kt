@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import cz.applifting.graphqlempty.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

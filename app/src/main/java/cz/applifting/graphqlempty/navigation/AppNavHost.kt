@@ -10,8 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import cz.applifting.graphqlempty.firebase.chat.ChatScreen
 import cz.applifting.graphqlempty.firebase.login.FirebaseLoginScreen
-import cz.applifting.graphqlempty.graphql.launchList.LaunchListScreen
 import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailScreen
+import cz.applifting.graphqlempty.graphql.launchList.LaunchListScreen
 import cz.applifting.graphqlempty.graphql.login.LoginScreen
 
 @Composable

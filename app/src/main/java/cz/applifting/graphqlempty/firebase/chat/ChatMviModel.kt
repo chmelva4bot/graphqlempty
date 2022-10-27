@@ -2,7 +2,6 @@ package cz.applifting.graphqlempty.firebase.chat
 
 import androidx.compose.runtime.Immutable
 import com.google.firebase.auth.FirebaseUser
-import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.Action
 import cz.applifting.graphqlempty.common.Event
 import cz.applifting.graphqlempty.common.State

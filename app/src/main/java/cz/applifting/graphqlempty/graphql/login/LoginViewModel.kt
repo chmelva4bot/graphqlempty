@@ -3,18 +3,14 @@ package cz.applifting.graphqlempty.graphql.login
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
-import cz.applifting.graphqlEmpty.LaunchDetailsQuery
-import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlEmpty.LoginMutation
 import cz.applifting.graphqlempty.common.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
+//@HiltViewModel
+class LoginViewModel constructor(
     private val client: ApolloClient
 ): BaseViewModel<LoginState, LoginEvent, LoginAction>() {
 

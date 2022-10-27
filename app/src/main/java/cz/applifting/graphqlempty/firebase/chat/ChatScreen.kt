@@ -8,16 +8,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import cz.applifting.graphqlempty.navigation.Screen
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ChatScreen(navController: NavController) {
 
     var state by remember { mutableStateOf(ChatState.initial())}
-    val viewModel: ChatViewModel = hiltViewModel()
+//    val viewModel: ChatViewModel = hiltViewModel()
+    val viewModel: ChatViewModel = koinViewModel()
 
     LaunchedEffect(true) {
         this.launch {
