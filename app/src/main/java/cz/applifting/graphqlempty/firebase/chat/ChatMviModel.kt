@@ -13,11 +13,13 @@ sealed class ChatEvent: Event {
     data class SetUser(val user: FirebaseUser): ChatEvent()
 
     data class UpdateMessages(val msgs: List<ChatMessage>): ChatEvent()
+    data class UpdateMsgText(val text: String): ChatEvent()
 }
 
 sealed class ChatAction: Action {
-    object FetchData: ChatAction()
     object CheckUser: ChatAction()
+    data class UpdateMsgText(val text: String): ChatAction()
+    object SendMessage: ChatAction()
 }
 
 @Immutable
@@ -27,8 +29,9 @@ data class ChatState(
     val user: FirebaseUser?,
     val isUserChecked: Boolean,
     val messages: List<ChatMessage>,
+    val msgText: String
 ): State {
     companion object {
-        fun initial() = ChatState(false, false, null, false, listOf())
+        fun initial() = ChatState(false, false, null, false, listOf(), "")
     }
 }

@@ -20,6 +20,9 @@ class ChatReducer(initialState: ChatState): Reducer<ChatState, ChatEvent>(initia
             is ChatEvent.SetUser -> {
                 setState(oldState.copy(user = event.user))
             }
+            is ChatEvent.UpdateMsgText -> {
+                setState(oldState.copy(msgText = event.text))
+            }
         }
     }
 }
