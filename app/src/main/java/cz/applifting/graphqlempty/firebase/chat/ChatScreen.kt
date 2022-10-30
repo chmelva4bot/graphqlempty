@@ -1,6 +1,8 @@
 package cz.applifting.graphqlempty.firebase.chat
 
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +59,10 @@ fun ChatScreen(navController: NavController) {
 
     val listScrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    
+    val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
+        Log.d("Img", "ChatScreen: ${it.toString()}")
+    }
 
     var shouldScrollToBottom = remember { true }
 
@@ -113,14 +120,18 @@ fun ChatScreen(navController: NavController) {
                     imageUrl = it.imageUrl ?: "",
                 )
             }
-            item {Spacer(modifier = Modifier.height(8.dp))}
+//            item {Spacer(modifier = Modifier.height(8.dp))}
         }
-
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             Modifier
                 .fillMaxWidth()
 //                .padding(horizontal = 16.dp)
         ) {
+            IconButton(onClick = {imageLauncher.launch("image/*")}) {
+                Icon(imageVector = Icons.Default.Image, contentDescription = null, tint = MaterialTheme.colors.primary)
+            }
+            Spacer(modifier = Modifier.width(0.dp))
             TextField(
                 value = state.msgText,
                 onValueChange = { scope.launch { viewModel.sendAction(ChatAction.UpdateMsgText(it)) }},
@@ -128,7 +139,7 @@ fun ChatScreen(navController: NavController) {
                     .weight(1f)
                     .clip(RoundedCornerShape(8.dp))
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(0.dp))
             IconButton(onClick = {scope.launch { viewModel.sendAction(ChatAction.SendMessage) }}, enabled = state.msgText.isNotBlank() && state.msgText.isNotEmpty()) {
                 Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.primary)
             }
