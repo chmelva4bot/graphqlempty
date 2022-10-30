@@ -10,12 +10,14 @@ sealed class ChatEvent: Event {
     object ShowError: ChatEvent()
     object ShowLoading: ChatEvent()
     object AuthUser: ChatEvent()
+    data class SetUser(val user: FirebaseUser): ChatEvent()
 
     data class UpdateMessages(val msgs: List<ChatMessage>): ChatEvent()
 }
 
 sealed class ChatAction: Action {
     object FetchData: ChatAction()
+    object CheckUser: ChatAction()
 }
 
 @Immutable

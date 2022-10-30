@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -43,6 +44,8 @@ class MainActivity : ComponentActivity() {
             Firebase.database.useEmulator("192.168.0.100", 9000)
             Firebase.auth.useEmulator("192.168.0.100", 9099)
             Firebase.storage.useEmulator("192.168.0.100", 9199)
+//            Firebase.auth.currentUser.
+            AuthUI.getInstance().signOut(this)
         }
 
         setContent {

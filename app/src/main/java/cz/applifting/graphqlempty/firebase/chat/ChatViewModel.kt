@@ -28,16 +28,19 @@ class ChatViewModel constructor(
     private val msgs = db.reference.child("messages")
 
     init {
-
-        viewModelScope.launch {
-            if (Firebase.auth.currentUser == null) {
-                sendEvent(ChatEvent.AuthUser)
-            }
-        }
-
         viewModelScope.launch {
             messagesFlow().collect {
                 sendEvent(ChatEvent.UpdateMessages(it))
+            }
+        }
+    }
+
+    private fun checkUser() {
+        viewModelScope.launch {
+            if (Firebase.auth.currentUser == null) {
+                sendEvent(ChatEvent.AuthUser)
+            } else {
+                sendEvent(ChatEvent.SetUser(Firebase.auth.currentUser!!))
             }
         }
     }
@@ -69,6 +72,9 @@ class ChatViewModel constructor(
     }
 
     override fun handleAction(action: ChatAction) {
+        when (action) {
 
+            else -> checkUser()
+        }
     }
 }
