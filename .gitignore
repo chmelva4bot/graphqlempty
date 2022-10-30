@@ -9,4 +9,6 @@
 .cxx
 local.properties
 database-debug.log
+firebase-debug.log
+
 
