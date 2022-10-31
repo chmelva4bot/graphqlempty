@@ -81,6 +81,12 @@ fun App() {
         }
     }
 
+    val menu by remember(navBackStackEntry) {
+        derivedStateOf {
+            Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").optionsMenu
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -98,7 +104,8 @@ fun App() {
                         }) {
                             Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                         }
-                    }
+                    },
+                    actions = { menu }
                 )
             },
             drawerContent = {
