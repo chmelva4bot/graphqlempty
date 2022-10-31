@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "1234567890158",
-    "firebase_url": "https://demo-friendlychat-android.firebaseio.com",
-    "project_id": "demo-friendlychat-android",
-    "storage_bucket": "demo-friendlychat-android.appspot.com"
+    "project_number": "407811871431",
+    "project_id": "chm-cm",
+    "storage_bucket": "chm-cm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1234567890158:android:399077dc333751e6a5f937",
+        "mobilesdk_app_id": "1:407811871431:android:2247014f2ede9a1428e4e2",
         "android_client_info": {
           "package_name": "cz.applifting.graphqlempty"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1234567890158-gv99p92abcdef88ucgfobd02abcdef7m.apps.googleusercontent.com",
+          "client_id": "407811871431-s9f4uhockmgavrvfo2e6qadr0p70cant.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.applifting.graphqlempty",
+            "certificate_hash": "a2d7db619b54b8d8828519168951495a9086a8df"
+          }
+        },
+        {
+          "client_id": "407811871431-4qai1gmt73nn7aggps7uh02t2jp3p6lb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA9kwAAxbxcrkibrLOuAA8YnAWqgur0AeA"
+          "current_key": "AIzaSyAznvAPcVbuvgIsz2J4X6x3gEzdE0f-QBY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1234567890158-gv99p92abcdef88ucgfobd02abcdef7m.apps.googleusercontent.com",
+              "client_id": "407811871431-4qai1gmt73nn7aggps7uh02t2jp3p6lb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

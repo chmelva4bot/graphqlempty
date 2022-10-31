@@ -7,6 +7,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -36,19 +37,14 @@ class ChatViewModel constructor(
     override val state: StateFlow<ChatState>
         get() = reducer.state
 
-    private val db = Firebase.database
+    private val db = FirebaseDatabase.getInstance("https://chm-cm-default-rtdb.europe-west1.firebasedatabase.app/")
     private val msgs = db.reference.child("messages")
 
     private val _scrollToBottomEvent = MutableSharedFlow<Int>()
     val scrollToBottomEvent = _scrollToBottomEvent.asSharedFlow()
 
     init {
-        viewModelScope.launch {
-            messagesFlow().collect {
-                sendEvent(ChatEvent.UpdateMessages(it))
-                _scrollToBottomEvent.emit(0)
-            }
-        }
+
     }
 
     private fun checkUser() {
@@ -57,6 +53,16 @@ class ChatViewModel constructor(
                 sendEvent(ChatEvent.AuthUser)
             } else {
                 sendEvent(ChatEvent.SetUser(Firebase.auth.currentUser!!))
+                collectMessages()
+            }
+        }
+    }
+
+    private fun collectMessages() {
+        viewModelScope.launch {
+            messagesFlow().collect {
+                sendEvent(ChatEvent.UpdateMessages(it))
+                _scrollToBottomEvent.emit(0)
             }
         }
     }
@@ -93,7 +99,9 @@ class ChatViewModel constructor(
             photoUrl = Firebase.auth.currentUser?.photoUrl?.toString(),
             null
         )
-        msgs.push().setValue(msg)
+        msgs.push().setValue(msg) { error, ref ->
+            if (error != null) Log.e("ChatVM", "Msg upload failed", error.toException())
+        }
         sendEvent(ChatEvent.UpdateMsgText(""))
     }
 
@@ -128,9 +136,13 @@ class ChatViewModel constructor(
     }
 
     private suspend fun putImageInStorage(storageReference: StorageReference, uri: Uri): Uri = suspendCoroutine {
-        storageReference.putFile(uri).addOnSuccessListener { taskSnapshot ->
-            taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
-                it.resume(uri)
+        storageReference.putFile(uri).addOnCompleteListener { taskSnapshot ->
+            if (taskSnapshot.exception != null) {
+                it.resumeWithException(taskSnapshot.exception!!)
+            } else {
+                taskSnapshot.result.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
+                    it.resume(uri)
+                }
             }
         }
     }
