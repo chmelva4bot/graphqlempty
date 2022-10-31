@@ -21,6 +21,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 //@HiltViewModel
 class ChatViewModel constructor(
@@ -98,37 +101,37 @@ class ChatViewModel constructor(
         viewModelScope.launch {
             val tmpMessage = ChatMessage(null, state.value.user?.displayName, state.value.user?.photoUrl.toString(), LOADING_IMAGE_URL)
 
-            msgs.push().setValue(tmpMessage, DatabaseReference.CompletionListener { databaseError, databaseReference ->
-                if (databaseError != null) {
-                    Log.w(
-                        "ChatVM", "Unable to write message to database.",
-                        databaseError.toException()
-                    )
-                    return@CompletionListener
-                }
+            val dbRef = uploadTempMessage(tmpMessage)
 
-                // Build a StorageReference and then upload the file
-                val key = databaseReference.key
-                val storageReference = Firebase.storage
-                    .getReference(state.value.user!!.uid)
-                    .child(key!!)
-                    .child(uri.lastPathSegment!!)
-                putImageInStorage(storageReference, uri, key)
-            })
+            // Build a StorageReference and then upload the file
+            val key = dbRef.key
+            val storageReference = Firebase.storage
+                .getReference(state.value.user!!.uid)
+                .child(key!!)
+                .child(uri.lastPathSegment!!)
+
+            val imgUri = putImageInStorage(storageReference, uri)
+
+            val friendlyMessage =
+                ChatMessage(null, state.value.user?.displayName, state.value.user?.photoUrl.toString(), imgUri.toString())
+            msgs
+                .child(key)
+                .setValue(friendlyMessage)
         }
     }
 
-    private fun putImageInStorage(storageReference: StorageReference, uri: Uri, key: String?) {
-        storageReference.putFile(uri).addOnSuccessListener {taskSnapshot -> // After the image loads, get a public downloadUrl for the image
-            // and add it to the message.
-            taskSnapshot.metadata!!.reference!!.downloadUrl
-                .addOnSuccessListener { uri ->
-                    val friendlyMessage =
-                        ChatMessage(null, state.value.user?.displayName, state.value.user?.photoUrl.toString(), uri.toString())
-                    msgs
-                        .child(key!!)
-                        .setValue(friendlyMessage)
-                }
+    private suspend fun uploadTempMessage(message: ChatMessage): DatabaseReference  = suspendCoroutine {
+        msgs.push().setValue(message) { error, ref ->
+            if (error != null) it.resumeWithException(error.toException())
+            else it.resume(ref)
+        }
+    }
+
+    private suspend fun putImageInStorage(storageReference: StorageReference, uri: Uri): Uri = suspendCoroutine {
+        storageReference.putFile(uri).addOnSuccessListener { taskSnapshot ->
+            taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { uri ->
+                it.resume(uri)
+            }
         }
     }
 
