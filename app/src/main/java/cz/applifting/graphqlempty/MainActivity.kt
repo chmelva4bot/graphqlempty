@@ -41,9 +41,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (BuildConfig.DEBUG) {
-            Firebase.database.useEmulator("192.168.0.100", 9000)
-            Firebase.auth.useEmulator("192.168.0.100", 9099)
-            Firebase.storage.useEmulator("192.168.0.100", 9199)
+            val PC_IP = "192.168.1.216"
+            Firebase.database.useEmulator(PC_IP, 9000)
+            Firebase.auth.useEmulator(PC_IP, 9099)
+            Firebase.storage.useEmulator(PC_IP, 9199)
 //            Firebase.auth.currentUser.
             AuthUI.getInstance().signOut(this)
         }

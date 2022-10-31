@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -62,6 +63,9 @@ fun ChatScreen(navController: NavController) {
     
     val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         Log.d("Img", "ChatScreen: ${it.toString()}")
+        if (it != null) {
+            viewModel.sendAction(ChatAction.SendImageMessage(it))
+        }
     }
 
     var shouldScrollToBottom = remember { true }
@@ -178,7 +182,12 @@ fun MessageBox(
                 .padding(horizontal = 12.dp, vertical = 4.dp)
         ) {
             Text(text = name, style = MaterialTheme.typography.h6)
-            Text(text = text, style = MaterialTheme.typography.body1)
+            if (text.isNotEmpty()) {
+                Text(text = text, style = MaterialTheme.typography.body1)
+            }
+            if (photoUrl.isNotEmpty()) {
+                AsyncImage(model = imageUrl, contentDescription = null, contentScale = ContentScale.FillWidth,  modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }

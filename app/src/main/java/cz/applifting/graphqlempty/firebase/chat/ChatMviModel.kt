@@ -1,5 +1,6 @@
 package cz.applifting.graphqlempty.firebase.chat
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.google.firebase.auth.FirebaseUser
 import cz.applifting.graphqlempty.common.Action
@@ -20,6 +21,8 @@ sealed class ChatAction: Action {
     object CheckUser: ChatAction()
     data class UpdateMsgText(val text: String): ChatAction()
     object SendMessage: ChatAction()
+
+    data class SendImageMessage(val uri: Uri): ChatAction()
 }
 
 @Immutable
