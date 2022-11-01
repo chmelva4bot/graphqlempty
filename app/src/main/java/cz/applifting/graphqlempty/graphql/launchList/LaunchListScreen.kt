@@ -1,5 +1,6 @@
 package cz.applifting.graphqlempty.graphql.launchList
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,7 +71,12 @@ fun LaunchListScreen(navController: NavController) {
     ) {
         item {
             LaunchListHeader {
-                User.removeToken(ctx)
+                try {
+                    User.removeToken(ctx)
+                } catch (e: Exception) {
+                    Log.e("LLS", "LaunchListScreen: ", e)
+                }
+
             }
         }
         items(state.data) {
