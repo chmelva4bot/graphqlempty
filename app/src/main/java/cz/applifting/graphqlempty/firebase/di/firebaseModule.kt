@@ -1,9 +1,12 @@
 package cz.applifting.graphqlempty.firebase.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
@@ -21,6 +24,10 @@ val firebaseModule = module {
         return Firebase.storage
     }
 
+    fun provideFirebaseAuth(): FirebaseAuth = Firebase.auth
+
+    fun provideGetCurrentUserUseCase(auth: FirebaseAuth): GetCurrentUserUseCase = GetCurrentUserUseCase(auth)
+
     fun provideDisplayChatUseCase(database: FirebaseDatabase): DisplayChatUseCase {
         return DisplayChatUseCase(database.reference.child("messages"))
     }
@@ -35,9 +42,11 @@ val firebaseModule = module {
 
     single { provideFirebaseDatabase() }
     single { provideFirebaseStorage() }
+    single { provideFirebaseAuth() }
+    single { provideGetCurrentUserUseCase(get()) }
     single { provideDisplayChatUseCase(get()) }
     single { provideSendMessageUseCase(get()) }
     single { provideUploadImageUseCase(get()) }
 
-    viewModel { ChatViewModel(get(), get(), get()) }
+    viewModel { ChatViewModel(get(), get(), get(), get()) }
 }

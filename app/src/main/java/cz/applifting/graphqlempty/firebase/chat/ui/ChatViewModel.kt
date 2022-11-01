@@ -1,11 +1,10 @@
 package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 import cz.applifting.graphqlempty.common.BaseViewModel
+import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
@@ -17,6 +16,7 @@ import kotlinx.coroutines.launch
 
 //@HiltViewModel
 class ChatViewModel constructor(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val displayChatUseCase: DisplayChatUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val uploadImageUseCase: UploadImageUseCase,
@@ -33,16 +33,20 @@ class ChatViewModel constructor(
     val scrollToBottomEvent = _scrollToBottomEvent.asSharedFlow()
 
     init {
-
+        observeUser()
     }
 
-    private fun checkUser() {
+    private fun observeUser() {
         viewModelScope.launch {
-            if (Firebase.auth.currentUser == null) {
-                sendEvent(ChatEvent.AuthUser)
-            } else {
-                sendEvent(ChatEvent.SetUser(Firebase.auth.currentUser!!))
-                collectMessages()
+            getCurrentUserUseCase.observeUser().collect { newUser ->
+//                Log.d("ChatVM", "Current user: ${newUser?.uid}")
+                if (newUser == null) {
+//                    sendEvent(ChatEvent.SetUser(null))
+                    sendEvent(ChatEvent.AuthUser)
+                } else {
+                    sendEvent(ChatEvent.SetUser(newUser))
+                    collectMessages()
+                }
             }
         }
     }
@@ -91,7 +95,7 @@ class ChatViewModel constructor(
             }
             is ChatAction.SendMessage -> sendMessage()
             is ChatAction.SendImageMessage -> sendImageMessage(action.uri)
-            is ChatAction.CheckUser -> checkUser()
+            is ChatAction.CheckUser -> {}
         }
     }
 }
