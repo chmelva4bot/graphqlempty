@@ -91,7 +91,7 @@ class ChatViewModel constructor(
             }
             is ChatAction.SendMessage -> sendMessage()
             is ChatAction.SendImageMessage -> sendImageMessage(action.uri)
-            else -> checkUser()
+            is ChatAction.CheckUser -> checkUser()
         }
     }
 }
