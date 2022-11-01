@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.firebase.chat.ui
 
 import cz.applifting.graphqlempty.common.Reducer
 

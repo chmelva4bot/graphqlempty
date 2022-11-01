@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 import cz.applifting.graphqlempty.common.Action
 import cz.applifting.graphqlempty.common.Event
 import cz.applifting.graphqlempty.common.State
+import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 
 sealed class ChatEvent: Event {
     object ShowError: ChatEvent()

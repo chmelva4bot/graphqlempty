@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
 import android.util.Log
@@ -9,18 +9,17 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import cz.applifting.graphqlempty.common.BaseViewModel
+import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException

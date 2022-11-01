@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.firebase.chat.data
 
 data class ChatMessage(
     val text: String? = null,
