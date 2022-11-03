@@ -6,13 +6,14 @@ import com.google.firebase.auth.FirebaseUser
 import cz.applifting.graphqlempty.common.Action
 import cz.applifting.graphqlempty.common.Event
 import cz.applifting.graphqlempty.common.State
+import cz.applifting.graphqlempty.firebase.auth.BasicUser
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 
 sealed class ChatEvent: Event {
     object ShowError: ChatEvent()
     object ShowLoading: ChatEvent()
     object AuthUser: ChatEvent()
-    data class SetUser(val user: FirebaseUser): ChatEvent()
+    data class SetUser(val user: BasicUser): ChatEvent()
 
     data class UpdateMessages(val msgs: List<ChatMessage>): ChatEvent()
     data class UpdateMsgText(val text: String): ChatEvent()
@@ -30,7 +31,7 @@ sealed class ChatAction: Action {
 data class ChatState(
     val isLoading: Boolean,
     val isError: Boolean,
-    val user: FirebaseUser?,
+    val user: BasicUser?,
     val isUserChecked: Boolean,
     val messages: List<ChatMessage>,
     val msgText: String

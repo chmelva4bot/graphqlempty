@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import cz.applifting.graphqlempty.common.BaseViewModel
 import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
+import cz.applifting.graphqlempty.firebase.auth.IGetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 //@HiltViewModel
 class ChatViewModel constructor(
-    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getCurrentUserUseCase: IGetCurrentUserUseCase,
     private val displayChatUseCase: DisplayChatUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val uploadImageUseCase: UploadImageUseCase,

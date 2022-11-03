@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
+import cz.applifting.graphqlempty.firebase.auth.IGetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.IMessageRepository
 import cz.applifting.graphqlempty.firebase.chat.data.MessageRepository
@@ -28,7 +29,7 @@ val firebaseModule = module {
 
     fun provideFirebaseAuth(): FirebaseAuth = Firebase.auth
 
-    fun provideGetCurrentUserUseCase(auth: FirebaseAuth): GetCurrentUserUseCase = GetCurrentUserUseCase(auth)
+    fun provideGetCurrentUserUseCase(auth: FirebaseAuth): IGetCurrentUserUseCase = GetCurrentUserUseCase(auth)
 
     fun provideMessageRepository(database: FirebaseDatabase): IMessageRepository = MessageRepository(database.reference.child("messages"))
 
