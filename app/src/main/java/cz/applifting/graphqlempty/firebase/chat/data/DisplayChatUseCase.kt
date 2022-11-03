@@ -9,31 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 class DisplayChatUseCase(
-    private val messagesDatabaseReference: DatabaseReference
+    private val repository: IMessageRepository
 ) {
-
-    fun messagesFlow(): Flow<List<ChatMessage>> = callbackFlow {
-        val valueListener = object: ValueEventListener {
-
-            override fun onCancelled(error: DatabaseError) {
-                close()
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                val res = snapshot.children.map {
-                    val text = it.child("text").value as? String
-                    val name = it.child("name").value as? String
-                    val photoUrl = it.child("photoUrl").value as? String
-                    val imageUrl = it.child("imageUrl").value as? String
-                    ChatMessage(text, name, photoUrl, imageUrl)
-                }
-                trySend(res)
-            }
-        }
-        messagesDatabaseReference.addValueEventListener(valueListener)
-        awaitClose {
-            messagesDatabaseReference.removeEventListener(valueListener)
-        }
-    }
+    fun messagesFlow(): Flow<List<ChatMessage>> = repository.getMessages()
 }

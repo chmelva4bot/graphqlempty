@@ -77,14 +77,14 @@ class ChatViewModel constructor(
         viewModelScope.launch {
             val tmpMessage = ChatMessage(null, state.value.user?.displayName, state.value.user?.photoUrl.toString(), LOADING_IMAGE_URL)
 
-            val messageDatabaseReference = sendMessageUseCase.sendMessage(tmpMessage)
+            val messageKey = sendMessageUseCase.sendMessage(tmpMessage)
 
-            val uploadedImageUri = uploadImageUseCase.putImageInStorage(localImageUri, messageDatabaseReference,  state.value.user!!)
+            val uploadedImageUri = uploadImageUseCase.putImageInStorage(localImageUri, messageKey,  state.value.user!!)
 
             val friendlyMessage =
                 ChatMessage(null, state.value.user?.displayName, state.value.user?.photoUrl.toString(), uploadedImageUri.toString())
 
-            sendMessageUseCase.replaceMessage(friendlyMessage, messageDatabaseReference.key!!)
+            sendMessageUseCase.replaceMessage(friendlyMessage, messageKey)
         }
     }
 

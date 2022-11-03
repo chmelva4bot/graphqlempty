@@ -8,6 +8,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
+import cz.applifting.graphqlempty.firebase.chat.data.IMessageRepository
+import cz.applifting.graphqlempty.firebase.chat.data.MessageRepository
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.ui.ChatViewModel
@@ -28,12 +30,14 @@ val firebaseModule = module {
 
     fun provideGetCurrentUserUseCase(auth: FirebaseAuth): GetCurrentUserUseCase = GetCurrentUserUseCase(auth)
 
-    fun provideDisplayChatUseCase(database: FirebaseDatabase): DisplayChatUseCase {
-        return DisplayChatUseCase(database.reference.child("messages"))
+    fun provideMessageRepository(database: FirebaseDatabase): IMessageRepository = MessageRepository(database.reference.child("messages"))
+
+    fun provideDisplayChatUseCase(messageRepository: IMessageRepository): DisplayChatUseCase {
+        return DisplayChatUseCase(messageRepository)
     }
 
-    fun provideSendMessageUseCase(database: FirebaseDatabase): SendMessageUseCase {
-        return SendMessageUseCase(database.reference.child("messages"))
+    fun provideSendMessageUseCase(messageRepository: IMessageRepository): SendMessageUseCase {
+        return SendMessageUseCase(messageRepository)
     }
 
     fun provideUploadImageUseCase(storage: FirebaseStorage): UploadImageUseCase {
@@ -43,6 +47,7 @@ val firebaseModule = module {
     single { provideFirebaseDatabase() }
     single { provideFirebaseStorage() }
     single { provideFirebaseAuth() }
+    single { provideMessageRepository(get()) }
     single { provideGetCurrentUserUseCase(get()) }
     single { provideDisplayChatUseCase(get()) }
     single { provideSendMessageUseCase(get()) }

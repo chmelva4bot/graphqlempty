@@ -13,12 +13,12 @@ class UploadImageUseCase(
     private val storage: FirebaseStorage
 ){
 
-    private fun buildStorageReference(user: FirebaseUser, messageReference: DatabaseReference, imageUri: Uri): StorageReference {
-        return storage.getReference(user.uid).child(messageReference.key!!).child(imageUri.lastPathSegment!!)
+    private fun buildStorageReference(user: FirebaseUser, messageKey: String, imageUri: Uri): StorageReference {
+        return storage.getReference(user.uid).child(messageKey).child(imageUri.lastPathSegment!!)
     }
 
-    suspend fun putImageInStorage(imageUri: Uri, messageReference: DatabaseReference, user: FirebaseUser): Uri = suspendCoroutine {
-        val storageReference = buildStorageReference(user, messageReference, imageUri)
+    suspend fun putImageInStorage(imageUri: Uri, messageKey: String, user: FirebaseUser): Uri = suspendCoroutine {
+        val storageReference = buildStorageReference(user, messageKey, imageUri)
         storageReference.putFile(imageUri).addOnCompleteListener { taskSnapshot ->
             if (taskSnapshot.exception != null) {
                 it.resumeWithException(taskSnapshot.exception!!)
