@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.ui.theme.LightGray
 import kotlinx.coroutines.launch
@@ -67,26 +69,19 @@ fun ChatScreen(navController: NavController) {
         }
     }
 
-    var shouldScrollToBottom = remember { true }
-
     LaunchedEffect(true) {
         this.launch {
             viewModel.state.collect {
+                val shouldScroll = it.messages.size != state.messages.size
                 state = it
-                if (it.messages.isNotEmpty() && shouldScrollToBottom) {
-                    shouldScrollToBottom = false
-                    listScrollState.animateScrollToItem(it.messages.lastIndex, 1)
-                }
-            }
-        }
-        this.launch {
-            viewModel.scrollToBottomEvent.collect {
-                scope.launch { listScrollState.animateScrollToItem(state.messages.lastIndex, 1) }
+               if (shouldScroll) {
+                   listScrollState.scrollToItem(state.messages.lastIndex, -10)
+//                   listScrollState.layoutInfo.visibleItemsInfo.
+               }
             }
         }
     }
 
-    viewModel.sendAction(ChatAction.CheckUser)
 
     LaunchedEffect(state.isUserChecked, state.user) {
         Log.d("Chat", "User checked: ${state.isUserChecked} user: ${state.user}")
@@ -104,27 +99,7 @@ fun ChatScreen(navController: NavController) {
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
     ) {
-        LazyColumn(
-            state = listScrollState,
-            //       reverseLayout = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            verticalArrangement = Arrangement.Bottom,
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-
-            items(state.messages) {
-                Spacer(modifier = Modifier.height(8.dp))
-                MessageBox(
-                    name = it.name ?: "",
-                    text = it.text ?: "",
-                    photoUrl = it.photoUrl ?: "",
-                    imageUrl = it.imageUrl ?: "",
-                )
-            }
-//            item {Spacer(modifier = Modifier.height(8.dp))}
-        }
+        MessageList(state.messages, listScrollState, Modifier.fillMaxWidth().weight(1f))
         Spacer(modifier = Modifier.height(16.dp))
         ChatScreenBottomBar(
             textFieldValue = state.msgText,
@@ -165,6 +140,33 @@ private fun ChatScreenBottomBar(
         IconButton(onClick = onSendMessageClicked, enabled = isSendMessageEnabled) {
             Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.primary)
         }
+    }
+}
+
+@Composable
+private fun MessageList(
+    messages: List<ChatMessage>,
+    listScrollState: LazyListState,
+    modifier: Modifier
+) {
+    LazyColumn(
+        state = listScrollState,
+        //       reverseLayout = true,
+        modifier = modifier,
+        verticalArrangement = Arrangement.Bottom,
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+
+        items(messages) {
+            Spacer(modifier = Modifier.height(8.dp))
+            MessageBox(
+                name = it.name ?: "",
+                text = it.text ?: "",
+                photoUrl = it.photoUrl ?: "",
+                imageUrl = it.imageUrl ?: "",
+            )
+        }
+        //            item {Spacer(modifier = Modifier.height(8.dp))}
     }
 }
 
