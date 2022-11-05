@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -125,34 +126,51 @@ fun ChatScreen(navController: NavController) {
 //            item {Spacer(modifier = Modifier.height(8.dp))}
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-//                .padding(horizontal = 16.dp)
-        ) {
-            IconButton(onClick = {imageLauncher.launch("image/*")}) {
-                Icon(imageVector = Icons.Default.Image, contentDescription = null, tint = MaterialTheme.colors.primary)
-            }
-            Spacer(modifier = Modifier.width(0.dp))
-            TextField(
-                value = state.msgText,
-                onValueChange = { scope.launch { viewModel.sendAction(ChatAction.UpdateMsgText(it)) }},
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(8.dp))
-            )
-            Spacer(modifier = Modifier.width(0.dp))
-            IconButton(onClick = {scope.launch { viewModel.sendAction(ChatAction.SendMessage) }}, enabled = state.msgText.isNotBlank() && state.msgText.isNotEmpty()) {
-                Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.primary)
-            }
-        }
+        ChatScreenBottomBar(
+            textFieldValue = state.msgText,
+            onSelectImageClicked =  {imageLauncher.launch("image/*")},
+            onTextFieldValueChanged = { scope.launch { viewModel.sendAction(ChatAction.UpdateMsgText(it)) }},
+            onSendMessageClicked = {scope.launch { viewModel.sendAction(ChatAction.SendMessage) }},
+            isSendMessageEnabled = state.msgText.isNotBlank()
+        )
         Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+private fun ChatScreenBottomBar(
+    onSelectImageClicked: ()->Unit,
+    textFieldValue: String,
+    onTextFieldValueChanged: (String)-> Unit,
+    onSendMessageClicked: ()-> Unit,
+    isSendMessageEnabled: Boolean
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+        //                .padding(horizontal = 16.dp)
+    ) {
+        IconButton(onClick = onSelectImageClicked) {
+            Icon(imageVector = Icons.Default.Image, contentDescription = null, tint = MaterialTheme.colors.primary)
+        }
+        Spacer(modifier = Modifier.width(0.dp))
+        TextField(
+            value = textFieldValue,
+            onValueChange = onTextFieldValueChanged,
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(8.dp))
+        )
+        Spacer(modifier = Modifier.width(0.dp))
+        IconButton(onClick = onSendMessageClicked, enabled = isSendMessageEnabled) {
+            Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.primary)
+        }
     }
 }
 
 
 @Composable
-fun MessageBox(
+private fun MessageBox(
     name: String,
     text: String,
     photoUrl: String,
