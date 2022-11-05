@@ -8,6 +8,7 @@ import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.auth.IGetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
+import cz.applifting.graphqlempty.firebase.chat.data.IUploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,10 +21,13 @@ class ChatViewModel constructor(
     private val getCurrentUserUseCase: IGetCurrentUserUseCase,
     private val displayChatUseCase: DisplayChatUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
-    private val uploadImageUseCase: UploadImageUseCase,
+    private val uploadImageUseCase: IUploadImageUseCase,
 ): BaseViewModel<ChatState, ChatEvent, ChatAction>() {
 
-    private val LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif"
+    companion object {
+        const val LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif"
+    }
+
 
     override val reducer = ChatReducer(ChatState.initial())
     override val state: StateFlow<ChatState>

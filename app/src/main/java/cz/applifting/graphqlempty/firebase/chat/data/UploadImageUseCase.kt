@@ -10,15 +10,19 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+interface IUploadImageUseCase {
+    suspend fun putImageInStorage(imageUri: Uri, messageKey: String, user: BasicUser): Uri
+}
+
 class UploadImageUseCase(
     private val storage: FirebaseStorage
-){
+) : IUploadImageUseCase {
 
     private fun buildStorageReference(userUid: String, messageKey: String, imageUri: Uri): StorageReference {
         return storage.getReference(userUid).child(messageKey).child(imageUri.lastPathSegment!!)
     }
 
-    suspend fun putImageInStorage(imageUri: Uri, messageKey: String, user: BasicUser): Uri = suspendCoroutine {
+    override suspend fun putImageInStorage(imageUri: Uri, messageKey: String, user: BasicUser): Uri = suspendCoroutine {
         val storageReference = buildStorageReference(user.uid, messageKey, imageUri)
         storageReference.putFile(imageUri).addOnCompleteListener { taskSnapshot ->
             if (taskSnapshot.exception != null) {

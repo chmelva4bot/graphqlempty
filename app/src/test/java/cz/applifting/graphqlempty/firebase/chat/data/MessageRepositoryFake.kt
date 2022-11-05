@@ -12,11 +12,14 @@ class MessageRepositoryFake: IMessageRepository {
     override suspend fun sendMessage(message: ChatMessage): String {
         val current = messages.value.toMutableList()
         current.add(message)
-        messages.tryEmit(current)
-        return "mkey1"
+        messages.emit(current)
+        return (current.size - 1).toString()
     }
 
     override suspend fun updateMessage(message: ChatMessage, key: String): String {
-        TODO("Not yet implemented")
+        val current = messages.value.toMutableList()
+        current[key.toInt()] = message
+        messages.emit(current)
+        return key
     }
 }

@@ -10,6 +10,7 @@ import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.auth.IGetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.IMessageRepository
+import cz.applifting.graphqlempty.firebase.chat.data.IUploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.MessageRepository
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
@@ -41,7 +42,7 @@ val firebaseModule = module {
         return SendMessageUseCase(messageRepository)
     }
 
-    fun provideUploadImageUseCase(storage: FirebaseStorage): UploadImageUseCase {
+    fun provideUploadImageUseCase(storage: FirebaseStorage): IUploadImageUseCase {
         return UploadImageUseCase(storage)
     }
 
