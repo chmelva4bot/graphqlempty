@@ -11,6 +11,7 @@ import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCaseFake
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -23,45 +24,57 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ChatViewModelTest {
 
+    private lateinit var vm: ChatViewModel
+    private lateinit var fakeAuth: GetCurrentUserUseCaseFake
+    private lateinit var fakeRepo: MessageRepositoryFake
+    private lateinit var fakeImageUpload: UploadImageUseCaseFake
+
+
+    fun setup(dispatcher: CoroutineDispatcher) {
+        Dispatchers.setMain(dispatcher)
+
+        fakeAuth = GetCurrentUserUseCaseFake()
+        fakeRepo = MessageRepositoryFake()
+        fakeImageUpload = UploadImageUseCaseFake()
+
+        vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), SendMessageUseCase(fakeRepo), fakeImageUpload)
+    }
+
+    @After
+    fun teardown() { Dispatchers.resetMain()}
+
     @Test
     fun `properly checks for user login`(): Unit = runTest {
+        setup(UnconfinedTestDispatcher())
 
-        Dispatchers.setMain(UnconfinedTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-
-        val vm = ChatViewModel(fakeAuth ,mockk(), mockk(), mockk())
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
         assertFalse("User not checked at start", vm.state.value.isUserChecked)
-        fakeAuth.userFlow.emit(null)
 
+        fakeAuth.userFlow.emit(null)
         assertTrue("User checked after action", vm.state.value.isUserChecked)
         assertNull("User is null after action", vm.state.value.user)
 
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
     @Test
     fun `properly stores user in state`(): Unit = runTest {
-
-        Dispatchers.setMain(UnconfinedTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-        val fakeRepo = MessageRepositoryFake()
-
-        val vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), mockk(), mockk())
+        setup(UnconfinedTestDispatcher())
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
         fakeAuth.userFlow.emit(null)
 
-        assertNull("User is null after action", vm.state.value.user)
+        assertNull("User is null at first", vm.state.value.user)
 
         val user = BasicUser("uid", "name1", "photo1")
         fakeAuth.userFlow.emit(user)
@@ -71,17 +84,12 @@ class ChatViewModelTest {
         assertEquals(user.photoUrl, vm.state.value.user?.photoUrl)
 
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
 
 
     @Test
     fun `properly stores msg text in state`(): Unit = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-        val fakeRepo = MessageRepositoryFake()
-
-        val vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), SendMessageUseCase(fakeRepo), mockk())
+        setup(UnconfinedTestDispatcher())
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
 
         val msgText = "Message text 1"
@@ -90,16 +98,11 @@ class ChatViewModelTest {
         assertEquals(msgText, vm.state.value.msgText)
 
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
 
     @Test
     fun `properly sends text msg`(): Unit = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-        val fakeRepo = MessageRepositoryFake()
-
-        val vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), SendMessageUseCase(fakeRepo), mockk())
+        setup(UnconfinedTestDispatcher())
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
 
         val user = BasicUser("uid", "name1", "photo1")
@@ -108,7 +111,6 @@ class ChatViewModelTest {
         val msgText = "Message text 1"
 
         vm.sendAction(ChatAction.UpdateMsgText(msgText))
-
         vm.sendAction(ChatAction.SendMessage)
 
         assertEquals(1, vm.state.value.messages.size)
@@ -119,17 +121,11 @@ class ChatViewModelTest {
         assertNull("Image null during text message", msg.imageUrl)
 
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
 
     @Test
     fun `properly sends image msg_test_dispatcher`(): Unit = runTest {
-        Dispatchers.setMain(StandardTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-        val fakeRepo = MessageRepositoryFake()
-        val fakeUploadImage = UploadImageUseCaseFake()
-
-        val vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), SendMessageUseCase(fakeRepo), fakeUploadImage)
+        setup(StandardTestDispatcher())
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
 
         val user = BasicUser("uid", "name1", "photo1")
@@ -162,29 +158,24 @@ class ChatViewModelTest {
         assertNull("Text null in img message", msg.text)
 
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
 
     @Test
     fun `properly sends image msg`(): Unit = runBlocking(ImmediateTestDispatcher()) {
-        Dispatchers.setMain(ImmediateTestDispatcher())
-        val fakeAuth = GetCurrentUserUseCaseFake()
-        val fakeRepo = MessageRepositoryFake()
-        val fakeUploadImage = UploadImageUseCaseFake()
+        setup(ImmediateTestDispatcher())
+
         val imgUriString = "https://picsum.photos/aaa"
         val uriMock = mockk<Uri>()
         every { uriMock.lastPathSegment } returns "aaa"
         every { uriMock.toString() } returns imgUriString
-        val vm = ChatViewModel(fakeAuth, DisplayChatUseCase(fakeRepo), SendMessageUseCase(fakeRepo), fakeUploadImage)
+
         val user = BasicUser("uid", "name1", "photo1")
         fakeAuth.userFlow.emit(user)
+
         val collectedStates = mutableListOf<ChatState>()
         val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect { collectedStates.add(it)} }
 
-
         vm.sendAction(ChatAction.SendImageMessage(uriMock))
-//        advanceUntilIdle()
-
 
         assertEquals(3, collectedStates.size)
 
@@ -196,16 +187,12 @@ class ChatViewModelTest {
         assertEquals(ChatViewModel.LOADING_IMAGE_URL, secondStateMsg.imageUrl)
         assertNull(secondStateMsg.text)
 
-
         val finalMessage = collectedStates[2].messages[0]
         assertEquals(user.displayName, finalMessage.name)
         assertEquals(user.photoUrl, finalMessage.photoUrl)
         assertEquals(imgUriString, finalMessage.imageUrl)
         assertNull(finalMessage.text)
 
-
         collectJob.cancel()
-        Dispatchers.resetMain()
     }
-
 }
