@@ -1,7 +1,6 @@
 package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
-import app.cash.turbine.test
 import cz.applifting.graphqlempty.ImmediateTestDispatcher
 import cz.applifting.graphqlempty.firebase.auth.BasicUser
 import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCaseFake
@@ -17,7 +16,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -27,10 +25,8 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)

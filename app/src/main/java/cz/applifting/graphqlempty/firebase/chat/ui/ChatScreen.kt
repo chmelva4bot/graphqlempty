@@ -45,10 +45,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import cz.applifting.graphqlempty.common.TestTags
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.ui.theme.LightGray
@@ -89,7 +93,7 @@ fun ChatScreen(navController: NavController) {
 }
 
 @Composable
-private fun ChatScreenContainer(
+fun ChatScreenContainer(
     viewModel: ChatViewModel,
     goToAuth: ()->Unit,
     imagePickedFlow: Flow<Uri>,
@@ -160,7 +164,7 @@ private fun ChatScreenBottomBar(
         //                .padding(horizontal = 16.dp)
     ) {
         IconButton(onClick = onSelectImageClicked) {
-            Icon(imageVector = Icons.Default.Image, contentDescription = null, tint = MaterialTheme.colors.primary)
+            Icon(imageVector = Icons.Default.Image, contentDescription = "Pick an image", tint = MaterialTheme.colors.primary)
         }
         Spacer(modifier = Modifier.width(0.dp))
         TextField(
@@ -169,10 +173,13 @@ private fun ChatScreenBottomBar(
             modifier = Modifier
                 .weight(1f)
                 .clip(RoundedCornerShape(8.dp))
+                .semantics {
+                    testTag = TestTags.MESSAGE_INPUT
+                }
         )
         Spacer(modifier = Modifier.width(0.dp))
         IconButton(onClick = onSendMessageClicked, enabled = isSendMessageEnabled) {
-            Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = MaterialTheme.colors.primary)
+            Icon(imageVector = Icons.Default.Send, contentDescription = "Send a message", tint = MaterialTheme.colors.primary)
         }
     }
 }
@@ -218,9 +225,10 @@ private fun MessageBox(
         if (photoUrl.isEmpty()) {
             Box(modifier = Modifier
                 .background(LightGray.copy(0.3f), CircleShape)
-                .size(40.dp))
+                .size(40.dp)
+                .semantics { contentDescription = "User avatar placeholder" })
         } else {
-            AsyncImage(model = photoUrl, contentDescription = null, modifier = Modifier
+            AsyncImage(model = photoUrl, contentDescription = "User avatar", modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape))
         }
@@ -237,8 +245,8 @@ private fun MessageBox(
             if (text.isNotEmpty()) {
                 Text(text = text, style = MaterialTheme.typography.body1)
             }
-            if (photoUrl.isNotEmpty()) {
-                AsyncImage(model = imageUrl, contentDescription = null, contentScale = ContentScale.FillWidth,  modifier = Modifier.fillMaxWidth())
+            if (imageUrl.isNotEmpty()) {
+                AsyncImage(model = imageUrl, contentDescription = "Image message", contentScale = ContentScale.FillWidth,  modifier = Modifier.fillMaxWidth())
             }
         }
     }
