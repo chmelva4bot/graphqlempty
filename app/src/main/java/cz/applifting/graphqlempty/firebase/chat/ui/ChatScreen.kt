@@ -1,6 +1,8 @@
 package cz.applifting.graphqlempty.firebase.chat.ui
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -32,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,48 +52,76 @@ import coil.compose.AsyncImage
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.ui.theme.LightGray
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ChatScreen(navController: NavController) {
 
-    var state by remember { mutableStateOf(ChatState.initial())}
-//    val viewModel: ChatViewModel = hiltViewModel()
+    //    val viewModel: ChatViewModel = hiltViewModel()
     val viewModel: ChatViewModel = koinViewModel()
+
+    val imagePickedFlow = remember{ MutableSharedFlow<Uri>()}
+
+    val scope = rememberCoroutineScope()
+
+    val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
+        if (it != null) {
+           scope.launch { imagePickedFlow.emit(it) }
+        }
+    }
+
+    ChatScreenContainer(
+        viewModel = viewModel,
+        goToAuth = {
+            navController.navigate(Screen.FirebaseLogin.route) {
+            popUpTo(Screen.FirebaseLogin.route) {
+                inclusive = true
+            }}
+        },
+        imagePickedFlow.asSharedFlow(),
+        {scope.launch { imageLauncher.launch("image/*") }}
+    )
+
+}
+
+@Composable
+private fun ChatScreenContainer(
+    viewModel: ChatViewModel,
+    goToAuth: ()->Unit,
+    imagePickedFlow: Flow<Uri>,
+    onSelectImageClicked: () -> Unit
+) {
+    var state by remember { mutableStateOf(ChatState.initial())}
 
     val listScrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    
-    val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
-        Log.d("Img", "ChatScreen: ${it.toString()}")
-        if (it != null) {
-            viewModel.sendAction(ChatAction.SendImageMessage(it))
-        }
-    }
 
     LaunchedEffect(true) {
         this.launch {
             viewModel.state.collect {
                 val shouldScroll = it.messages.size != state.messages.size
                 state = it
-               if (shouldScroll) {
-                   listScrollState.scrollToItem(state.messages.lastIndex, -10)
-//                   listScrollState.layoutInfo.visibleItemsInfo.
-               }
+                if (shouldScroll) {
+                    listScrollState.scrollToItem(state.messages.lastIndex, -10)
+                    //                   listScrollState.layoutInfo.visibleItemsInfo.
+                }
+            }
+        }
+        this.launch {
+            imagePickedFlow.collect {
+                viewModel.sendAction(ChatAction.SendImageMessage(it))
             }
         }
     }
 
-
     LaunchedEffect(state.isUserChecked, state.user) {
         Log.d("Chat", "User checked: ${state.isUserChecked} user: ${state.user}")
         if (state.isUserChecked && state.user == null) {
-            navController.navigate(Screen.FirebaseLogin.route) {
-                popUpTo(Screen.FirebaseLogin.route) {
-                    inclusive = true
-                }
-            }
+            goToAuth()
         }
     }
 
@@ -99,11 +130,14 @@ fun ChatScreen(navController: NavController) {
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
     ) {
-        MessageList(state.messages, listScrollState, Modifier.fillMaxWidth().weight(1f))
+        MessageList(state.messages, listScrollState,
+            Modifier
+                .fillMaxWidth()
+                .weight(1f))
         Spacer(modifier = Modifier.height(16.dp))
         ChatScreenBottomBar(
             textFieldValue = state.msgText,
-            onSelectImageClicked =  {imageLauncher.launch("image/*")},
+            onSelectImageClicked =  onSelectImageClicked,
             onTextFieldValueChanged = { scope.launch { viewModel.sendAction(ChatAction.UpdateMsgText(it)) }},
             onSendMessageClicked = {scope.launch { viewModel.sendAction(ChatAction.SendMessage) }},
             isSendMessageEnabled = state.msgText.isNotBlank()
