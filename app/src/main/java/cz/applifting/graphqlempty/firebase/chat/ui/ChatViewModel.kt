@@ -100,6 +100,7 @@ class ChatViewModel constructor(
             is ChatAction.SendMessage -> sendMessage()
             is ChatAction.SendImageMessage -> sendImageMessage(action.uri)
             is ChatAction.CheckUser -> {}
+            is ChatAction.SignOut -> {}
         }
     }
 }

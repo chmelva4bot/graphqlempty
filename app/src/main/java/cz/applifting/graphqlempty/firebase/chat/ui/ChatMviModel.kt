@@ -21,6 +21,7 @@ sealed class ChatEvent: Event {
 
 sealed class ChatAction: Action {
     object CheckUser: ChatAction()
+    object SignOut: ChatAction()
     data class UpdateMsgText(val text: String): ChatAction()
     object SendMessage: ChatAction()
 

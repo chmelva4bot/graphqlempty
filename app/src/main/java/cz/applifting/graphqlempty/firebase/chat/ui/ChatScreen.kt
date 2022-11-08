@@ -54,6 +54,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import cz.applifting.graphqlempty.common.TestTags
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
+import cz.applifting.graphqlempty.navigation.OptionMenuItems
+import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.ui.theme.LightGray
 import kotlinx.coroutines.flow.Flow
@@ -67,6 +69,7 @@ fun ChatScreen(navController: NavController) {
 
     //    val viewModel: ChatViewModel = hiltViewModel()
     val viewModel: ChatViewModel = koinViewModel()
+    val optionsMenuViewModel: OptionsMenuViewModel = koinViewModel()
 
     val imagePickedFlow = remember{ MutableSharedFlow<Uri>()}
 
@@ -75,6 +78,14 @@ fun ChatScreen(navController: NavController) {
     val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         if (it != null) {
            scope.launch { imagePickedFlow.emit(it) }
+        }
+    }
+
+    LaunchedEffect(true) {
+        optionsMenuViewModel.optionsFlow.collect {
+            when (it) {
+                OptionMenuItems.SignOut -> viewModel.sendAction(ChatAction.SignOut)
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package cz.applifting.graphqlempty
 import android.app.Application
 import cz.applifting.graphqlempty.firebase.di.firebaseModule
 import cz.applifting.graphqlempty.graphql.di.gqlModule
+import cz.applifting.graphqlempty.navigation.navigationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -18,7 +19,7 @@ class MyApp: Application() {
             // Reference Android context
             androidContext(this@MyApp)
             // Load modules
-            modules(gqlModule, firebaseModule)
+            modules(gqlModule, firebaseModule, navigationModule)
         }
     }
 }

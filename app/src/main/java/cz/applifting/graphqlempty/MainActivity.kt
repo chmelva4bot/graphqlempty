@@ -105,7 +105,7 @@ fun App() {
                             Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                         }
                     },
-                    actions = { menu }
+                    actions = { menu() }
                 )
             },
             drawerContent = {
