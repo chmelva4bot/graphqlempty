@@ -241,11 +241,19 @@ private fun MessageBox(
                 .padding(horizontal = 12.dp, vertical = 4.dp)
         ) {
             Text(text = name, style = MaterialTheme.typography.h6)
+            Spacer(modifier = Modifier.height(8.dp))
             if (text.isNotEmpty()) {
                 Text(text = text, style = MaterialTheme.typography.body1)
             }
             if (imageUrl.isNotEmpty()) {
-                AsyncImage(model = imageUrl, contentDescription = "Image message", contentScale = ContentScale.FillWidth,  modifier = Modifier.fillMaxWidth())
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Image message",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                )
             }
         }
     }
