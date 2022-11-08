@@ -59,8 +59,7 @@ class ChatViewModel constructor(
     private fun collectMessages() {
         viewModelScope.launch {
             displayChatUseCase.messagesFlow().collect {
-                sendEvent(ChatEvent.UpdateMessages(it))
-                _scrollToBottomEvent.emit(0)
+                sendEvent(ChatEvent.UpdateMessages(it.reversed()))
             }
         }
     }

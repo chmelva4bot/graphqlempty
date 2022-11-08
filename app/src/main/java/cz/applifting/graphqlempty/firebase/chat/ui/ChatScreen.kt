@@ -107,12 +107,7 @@ fun ChatScreenContainer(
     LaunchedEffect(true) {
         this.launch {
             viewModel.state.collect {
-                val shouldScroll = it.messages.size != state.messages.size
                 state = it
-                if (shouldScroll) {
-                    listScrollState.scrollToItem(state.messages.lastIndex, -10)
-                    //                   listScrollState.layoutInfo.visibleItemsInfo.
-                }
             }
         }
         this.launch {
@@ -120,6 +115,10 @@ fun ChatScreenContainer(
                 viewModel.sendAction(ChatAction.SendImageMessage(it))
             }
         }
+    }
+
+    LaunchedEffect(state.messages.size) {
+        listScrollState.animateScrollToItem(0)
     }
 
     LaunchedEffect(state.isUserChecked, state.user) {
@@ -192,7 +191,7 @@ private fun MessageList(
 ) {
     LazyColumn(
         state = listScrollState,
-        //       reverseLayout = true,
+        reverseLayout = true,
         modifier = modifier,
         verticalArrangement = Arrangement.Bottom,
         contentPadding = PaddingValues(vertical = 8.dp)
