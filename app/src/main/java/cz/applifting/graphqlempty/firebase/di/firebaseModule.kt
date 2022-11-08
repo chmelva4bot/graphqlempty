@@ -15,6 +15,8 @@ import cz.applifting.graphqlempty.firebase.chat.data.MessageRepository
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.ui.ChatViewModel
+import cz.applifting.graphqlempty.firebase.login.ISignOutUserUseCase
+import cz.applifting.graphqlempty.firebase.login.SignOutUserUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -46,6 +48,8 @@ val firebaseModule = module {
         return UploadImageUseCase(storage)
     }
 
+    fun provideSignOutUserUseCase(auth: FirebaseAuth): ISignOutUserUseCase = SignOutUserUseCase(auth)
+
     single { provideFirebaseDatabase() }
     single { provideFirebaseStorage() }
     single { provideFirebaseAuth() }
@@ -54,6 +58,7 @@ val firebaseModule = module {
     single { provideDisplayChatUseCase(get()) }
     single { provideSendMessageUseCase(get()) }
     single { provideUploadImageUseCase(get()) }
+    single { provideSignOutUserUseCase(get()) }
 
     viewModel { ChatViewModel(get(), get(), get(), get()) }
 }

@@ -28,13 +28,13 @@ sealed class Screen(
     @StringRes val resourceId: Int,
     val icon: ImageVector,
     @StringRes val title: Int,
-    val optionsMenu: @Composable () -> Unit = {}
+    val optionsMenu: @Composable (optionsVm: OptionsMenuViewModel) -> Unit = {}
 ) {
 
     object GraphQLLaunchList: Screen("gqlLaunchList", R.string.GQLLaunchList, Icons.Default.RocketLaunch, R.string.title_GQLLaunchList)
     object GraphQLLogin: Screen("gqlLogin", R.string.GQLLogin, Icons.Default.RocketLaunch, R.string.title_GQLLogin)
     object GraphQLLaunchDetail: Screen("gqlLaunchList/{id}", R.string.GQLLaunchDetail, Icons.Default.RocketLaunch, R.string.title_GQLLaunchDetail)
-    object FirebaseChat: Screen("firebase/chat", R.string.FirebaseChat, Icons.Default.LocalFireDepartment, R.string.title_firebaseChat, { FirebaseMenu()})
+    object FirebaseChat: Screen("firebase/chat", R.string.FirebaseChat, Icons.Default.LocalFireDepartment, R.string.title_firebaseChat, { FirebaseMenu(it)})
     object FirebaseLogin: Screen("firebase/login", R.string.FirebaseLogin, Icons.Default.LocalFireDepartment, R.string.title_firebaseLogin)
 
     companion object {

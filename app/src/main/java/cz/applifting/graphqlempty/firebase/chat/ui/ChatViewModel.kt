@@ -11,6 +11,8 @@ import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.IUploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
+import cz.applifting.graphqlempty.firebase.login.ISignOutUserUseCase
+import cz.applifting.graphqlempty.firebase.login.SignOutUserUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -100,7 +102,6 @@ class ChatViewModel constructor(
             is ChatAction.SendMessage -> sendMessage()
             is ChatAction.SendImageMessage -> sendImageMessage(action.uri)
             is ChatAction.CheckUser -> {}
-            is ChatAction.SignOut -> {}
         }
     }
 }

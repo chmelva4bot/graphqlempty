@@ -1,5 +1,6 @@
 package cz.applifting.graphqlempty.firebase.chat
 
+import android.util.Log
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -20,12 +21,12 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FirebaseMenu() {
+fun FirebaseMenu(optionsMenuViewModel: OptionsMenuViewModel) {
 
     var showMenu by remember { mutableStateOf(false) }
     val scope  = rememberCoroutineScope()
 
-    val vm: OptionsMenuViewModel = koinViewModel()
+    Log.d("aaa", optionsMenuViewModel.toString())
 
     IconButton(onClick = { showMenu = !showMenu }) {
         Icon(Icons.Default.MoreVert, null, tint = MaterialTheme.colors.onPrimary)
@@ -36,7 +37,7 @@ fun FirebaseMenu() {
     ) {
         DropdownMenuItem(onClick = {
             scope.launch {
-                vm.onOptionsItemSelected(OptionMenuItems.SignOut)
+                optionsMenuViewModel.onOptionsItemSelected(OptionMenuItems.SignOut)
                 showMenu = false
             }
         }) {

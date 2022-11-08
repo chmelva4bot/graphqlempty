@@ -30,11 +30,13 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import cz.applifting.graphqlempty.navigation.AppNavHost
+import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.navigation.navDrawer.AppDrawer
 import cz.applifting.graphqlempty.navigation.navDrawer.NavDrawerItem
 import cz.applifting.graphqlempty.ui.theme.GraphqlEmptyTheme
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 //@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -49,7 +51,7 @@ class MainActivity : ComponentActivity() {
 
 //        }
 
-        AuthUI.getInstance().signOut(this)
+//        AuthUI.getInstance().signOut(this)
 
         setContent {
             GraphqlEmptyTheme {
@@ -66,6 +68,8 @@ fun App() {
     val scope = rememberCoroutineScope()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val optionsMenuViewModel: OptionsMenuViewModel = koinViewModel()
 
     val drawerItems by remember(navBackStackEntry) {
         derivedStateOf {
@@ -105,7 +109,7 @@ fun App() {
                             Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                         }
                     },
-                    actions = { menu() }
+                    actions = { menu(optionsMenuViewModel) }
                 )
             },
             drawerContent = {
@@ -127,6 +131,7 @@ fun App() {
                 AppNavHost(
                     navController = navController,
                     snackbarHostState = scaffoldState.snackbarHostState,
+                    optionsMenuViewModel = optionsMenuViewModel,
                     Modifier.padding(innerPadding)
                 )
             }

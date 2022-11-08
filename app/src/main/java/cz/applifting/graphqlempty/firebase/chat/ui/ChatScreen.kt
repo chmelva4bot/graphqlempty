@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
@@ -52,6 +53,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.firebase.ui.auth.AuthUI
 import cz.applifting.graphqlempty.common.TestTags
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.navigation.OptionMenuItems
@@ -65,15 +67,17 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ChatScreen(navController: NavController) {
+fun ChatScreen(navController: NavController, optionsMenuViewModel: OptionsMenuViewModel) {
 
     //    val viewModel: ChatViewModel = hiltViewModel()
     val viewModel: ChatViewModel = koinViewModel()
-    val optionsMenuViewModel: OptionsMenuViewModel = koinViewModel()
 
     val imagePickedFlow = remember{ MutableSharedFlow<Uri>()}
 
+    Log.d("aaa", optionsMenuViewModel.toString())
+
     val scope = rememberCoroutineScope()
+    val ctx = LocalContext.current
 
     val imageLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         if (it != null) {
@@ -84,7 +88,9 @@ fun ChatScreen(navController: NavController) {
     LaunchedEffect(true) {
         optionsMenuViewModel.optionsFlow.collect {
             when (it) {
-                OptionMenuItems.SignOut -> viewModel.sendAction(ChatAction.SignOut)
+                OptionMenuItems.SignOut -> {
+                    AuthUI.getInstance().signOut(ctx)
+                }
             }
         }
     }
@@ -98,7 +104,7 @@ fun ChatScreen(navController: NavController) {
             }}
         },
         imagePickedFlow.asSharedFlow(),
-        {scope.launch { imageLauncher.launch("image/*") }}
+        {scope.launch { imageLauncher.launch("image/*") }},
     )
 
 }
@@ -108,7 +114,7 @@ fun ChatScreenContainer(
     viewModel: ChatViewModel,
     goToAuth: ()->Unit,
     imagePickedFlow: Flow<Uri>,
-    onSelectImageClicked: () -> Unit
+    onSelectImageClicked: () -> Unit,
 ) {
     var state by remember { mutableStateOf(ChatState.initial())}
 

@@ -12,7 +12,7 @@ class ChatReducer(initialState: ChatState): Reducer<ChatState, ChatEvent>(initia
                 setState(oldState.copy(isLoading = true, isError = false))
             }
             is ChatEvent.AuthUser -> {
-                setState(oldState.copy(isUserChecked = true))
+                setState(oldState.copy(isUserChecked = true, user = null))
             }
             is ChatEvent.UpdateMessages -> {
                 setState(oldState.copy(messages = event.msgs))
