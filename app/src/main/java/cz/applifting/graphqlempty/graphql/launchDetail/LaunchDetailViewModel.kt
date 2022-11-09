@@ -2,21 +2,17 @@ package cz.applifting.graphqlempty.graphql.launchDetail
 
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.Optional
 import cz.applifting.graphqlEmpty.BookTripMutation
 import cz.applifting.graphqlEmpty.CancelTripMutation
 import cz.applifting.graphqlEmpty.LaunchDetailsQuery
-import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlEmpty.TripsBookedSubscription
 import cz.applifting.graphqlempty.common.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LaunchDetailViewModel @Inject constructor(
+//@HiltViewModel
+class LaunchDetailViewModel constructor(
     private val client: ApolloClient
 ) : BaseViewModel<LaunchDetailState, LaunchDetailEvent, LaunchDetailAction>() {
 

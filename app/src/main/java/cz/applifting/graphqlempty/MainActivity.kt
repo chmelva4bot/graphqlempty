@@ -1,7 +1,6 @@
 package cz.applifting.graphqlempty
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +9,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -18,38 +16,42 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.navigation.AppNavHost
+import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
 import cz.applifting.graphqlempty.navigation.Screen
 import cz.applifting.graphqlempty.navigation.navDrawer.AppDrawer
 import cz.applifting.graphqlempty.navigation.navDrawer.NavDrawerItem
 import cz.applifting.graphqlempty.ui.theme.GraphqlEmptyTheme
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.DEBUG) {
-            Firebase.database.useEmulator("192.168.0.100", 9000)
-            Firebase.auth.useEmulator("192.168.0.100", 9099)
-            Firebase.storage.useEmulator("192.168.0.100", 9199)
-        }
+//        if (BuildConfig.DEBUG) {
+//            val PC_IP = "192.168.1.216"
+//            Firebase.database.useEmulator(PC_IP, 9000)
+//            Firebase.auth.useEmulator(PC_IP, 9099)
+//            Firebase.storage.useEmulator(PC_IP, 9199)
+//            Firebase.auth.currentUser.
+
+//        }
+
+//        AuthUI.getInstance().signOut(this)
 
         setContent {
             GraphqlEmptyTheme {
@@ -67,6 +69,8 @@ fun App() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
+    val optionsMenuViewModel: OptionsMenuViewModel = koinViewModel()
+
     val drawerItems by remember(navBackStackEntry) {
         derivedStateOf {
             Screen.getTopLevelScreens()
@@ -78,6 +82,12 @@ fun App() {
     val title by remember(navBackStackEntry) {
         derivedStateOf {
             Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").title
+        }
+    }
+
+    val menu by remember(navBackStackEntry) {
+        derivedStateOf {
+            Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").optionsMenu
         }
     }
 
@@ -98,7 +108,8 @@ fun App() {
                         }) {
                             Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                         }
-                    }
+                    },
+                    actions = { menu(optionsMenuViewModel) }
                 )
             },
             drawerContent = {
@@ -120,6 +131,7 @@ fun App() {
                 AppNavHost(
                     navController = navController,
                     snackbarHostState = scaffoldState.snackbarHostState,
+                    optionsMenuViewModel = optionsMenuViewModel,
                     Modifier.padding(innerPadding)
                 )
             }

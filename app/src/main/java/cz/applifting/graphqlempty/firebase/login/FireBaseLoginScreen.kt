@@ -4,14 +4,16 @@ import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import cz.applifting.graphqlempty.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,7 +41,7 @@ fun FirebaseLoginScreen(navController: NavController) {
             }
         }
         scope.launch {
-            delay(2000)
+//            delay(2000)
             navController.popBackStack()
         }
     }
@@ -57,5 +59,5 @@ fun FirebaseLoginScreen(navController: NavController) {
         launcher.launch(signInIntent)
     }
 
-
+    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
 }

@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.firebase.chat.ui
 
 import cz.applifting.graphqlempty.common.Reducer
 
@@ -12,7 +12,16 @@ class ChatReducer(initialState: ChatState): Reducer<ChatState, ChatEvent>(initia
                 setState(oldState.copy(isLoading = true, isError = false))
             }
             is ChatEvent.AuthUser -> {
-                setState(oldState.copy(isUserChecked = true))
+                setState(oldState.copy(isUserChecked = true, user = null))
+            }
+            is ChatEvent.UpdateMessages -> {
+                setState(oldState.copy(messages = event.msgs))
+            }
+            is ChatEvent.SetUser -> {
+                setState(oldState.copy(user = event.user))
+            }
+            is ChatEvent.UpdateMsgText -> {
+                setState(oldState.copy(msgText = event.text))
             }
         }
     }

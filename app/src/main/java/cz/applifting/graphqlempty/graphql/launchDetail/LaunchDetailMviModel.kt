@@ -2,7 +2,6 @@ package cz.applifting.graphqlempty.graphql.launchDetail
 
 import androidx.compose.runtime.Immutable
 import cz.applifting.graphqlEmpty.LaunchDetailsQuery
-import cz.applifting.graphqlEmpty.LaunchListQuery
 import cz.applifting.graphqlempty.common.Action
 import cz.applifting.graphqlempty.common.Event
 import cz.applifting.graphqlempty.common.State
