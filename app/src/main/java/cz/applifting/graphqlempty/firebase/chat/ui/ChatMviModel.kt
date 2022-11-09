@@ -2,14 +2,13 @@ package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
-import com.google.firebase.auth.FirebaseUser
-import cz.applifting.graphqlempty.common.Action
-import cz.applifting.graphqlempty.common.Event
-import cz.applifting.graphqlempty.common.State
+import cz.applifting.graphqlempty.Action
+import cz.applifting.graphqlempty.Event
+import cz.applifting.graphqlempty.State
 import cz.applifting.graphqlempty.firebase.auth.BasicUser
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 
-sealed class ChatEvent: Event {
+sealed class ChatEvent: cz.applifting.graphqlempty.Event {
     object ShowError: ChatEvent()
     object ShowLoading: ChatEvent()
     object AuthUser: ChatEvent()
@@ -19,7 +18,7 @@ sealed class ChatEvent: Event {
     data class UpdateMsgText(val text: String): ChatEvent()
 }
 
-sealed class ChatAction: Action {
+sealed class ChatAction: cz.applifting.graphqlempty.Action {
     object CheckUser: ChatAction()
     data class UpdateMsgText(val text: String): ChatAction()
     object SendMessage: ChatAction()
@@ -35,7 +34,7 @@ data class ChatState(
     val isUserChecked: Boolean,
     val messages: List<ChatMessage>,
     val msgText: String
-): State {
+): cz.applifting.graphqlempty.State {
     companion object {
         fun initial() = ChatState(false, false, null, false, listOf(), "")
     }

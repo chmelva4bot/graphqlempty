@@ -1,18 +1,13 @@
 package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import cz.applifting.graphqlempty.common.BaseViewModel
-import cz.applifting.graphqlempty.firebase.auth.GetCurrentUserUseCase
+import cz.applifting.graphqlempty.BaseViewModel
 import cz.applifting.graphqlempty.firebase.auth.IGetCurrentUserUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
 import cz.applifting.graphqlempty.firebase.chat.data.DisplayChatUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.IUploadImageUseCase
 import cz.applifting.graphqlempty.firebase.chat.data.SendMessageUseCase
-import cz.applifting.graphqlempty.firebase.chat.data.UploadImageUseCase
-import cz.applifting.graphqlempty.firebase.login.ISignOutUserUseCase
-import cz.applifting.graphqlempty.firebase.login.SignOutUserUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow

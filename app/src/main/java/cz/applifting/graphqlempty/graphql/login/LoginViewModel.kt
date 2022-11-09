@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import cz.applifting.graphqlEmpty.LoginMutation
-import cz.applifting.graphqlempty.common.BaseViewModel
+import cz.applifting.graphqlempty.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 //@HiltViewModel
 class LoginViewModel constructor(
     private val client: ApolloClient
-): BaseViewModel<LoginState, LoginEvent, LoginAction>() {
+): cz.applifting.graphqlempty.BaseViewModel<LoginState, LoginEvent, LoginAction>() {
 
     override val reducer = LoginReducer(LoginState.initial())
     override val state: StateFlow<LoginState>

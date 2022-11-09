@@ -6,7 +6,7 @@ import cz.applifting.graphqlEmpty.BookTripMutation
 import cz.applifting.graphqlEmpty.CancelTripMutation
 import cz.applifting.graphqlEmpty.LaunchDetailsQuery
 import cz.applifting.graphqlEmpty.TripsBookedSubscription
-import cz.applifting.graphqlempty.common.BaseViewModel
+import cz.applifting.graphqlempty.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 //@HiltViewModel
 class LaunchDetailViewModel constructor(
     private val client: ApolloClient
-) : BaseViewModel<LaunchDetailState, LaunchDetailEvent, LaunchDetailAction>() {
+) : cz.applifting.graphqlempty.BaseViewModel<LaunchDetailState, LaunchDetailEvent, LaunchDetailAction>() {
 
     override val reducer = LaunchDetailReducer(LaunchDetailState.initial())
     override val state: StateFlow<LaunchDetailState>

@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.common
+package cz.applifting.graphqlempty
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

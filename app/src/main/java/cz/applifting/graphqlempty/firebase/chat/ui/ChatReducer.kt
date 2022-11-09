@@ -1,8 +1,8 @@
 package cz.applifting.graphqlempty.firebase.chat.ui
 
-import cz.applifting.graphqlempty.common.Reducer
+import cz.applifting.graphqlempty.Reducer
 
-class ChatReducer(initialState: ChatState): Reducer<ChatState, ChatEvent>(initialState) {
+class ChatReducer(initialState: ChatState): cz.applifting.graphqlempty.Reducer<ChatState, ChatEvent>(initialState) {
     override fun reduce(oldState: ChatState, event: ChatEvent) {
         when (event) {
             is ChatEvent.ShowError -> {

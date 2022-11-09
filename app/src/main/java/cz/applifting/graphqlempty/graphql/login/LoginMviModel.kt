@@ -1,18 +1,18 @@
 package cz.applifting.graphqlempty.graphql.login
 
 import androidx.compose.runtime.Immutable
-import cz.applifting.graphqlempty.common.Action
-import cz.applifting.graphqlempty.common.Event
-import cz.applifting.graphqlempty.common.State
+import cz.applifting.graphqlempty.Action
+import cz.applifting.graphqlempty.Event
+import cz.applifting.graphqlempty.State
 
-sealed class LoginEvent: Event {
+sealed class LoginEvent: cz.applifting.graphqlempty.Event {
     object ShowError: LoginEvent()
     object ShowLoading: LoginEvent()
     data class UpdateEmail(val fieldValue: String): LoginEvent()
     data class LeaveScreen(val token: String): LoginEvent()
 }
 
-sealed class LoginAction: Action {
+sealed class LoginAction: cz.applifting.graphqlempty.Action {
     data class UpdateEmail(val email: String): LoginAction()
     object SubmitLogin: LoginAction()
 }
@@ -24,7 +24,7 @@ data class LoginState(
     val isDone: Boolean,
     val token: String,
     val email: String
-): State {
+): cz.applifting.graphqlempty.State {
     companion object {
         fun initial() = LoginState(false, false, false, "", "")
     }

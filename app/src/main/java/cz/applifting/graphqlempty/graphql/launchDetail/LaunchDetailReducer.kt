@@ -1,8 +1,8 @@
 package cz.applifting.graphqlempty.graphql.launchDetail
 
-import cz.applifting.graphqlempty.common.Reducer
+import cz.applifting.graphqlempty.Reducer
 
-class LaunchDetailReducer(initialState: LaunchDetailState): Reducer<LaunchDetailState, LaunchDetailEvent>(initialState) {
+class LaunchDetailReducer(initialState: LaunchDetailState): cz.applifting.graphqlempty.Reducer<LaunchDetailState, LaunchDetailEvent>(initialState) {
     override fun reduce(oldState: LaunchDetailState, event: LaunchDetailEvent) {
         when (event) {
             is LaunchDetailEvent.ShowError -> {

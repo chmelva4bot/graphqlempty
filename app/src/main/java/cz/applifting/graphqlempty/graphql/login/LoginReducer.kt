@@ -1,8 +1,8 @@
 package cz.applifting.graphqlempty.graphql.login
 
-import cz.applifting.graphqlempty.common.Reducer
+import cz.applifting.graphqlempty.Reducer
 
-class LoginReducer(initialState: LoginState): Reducer<LoginState, LoginEvent>(initialState) {
+class LoginReducer(initialState: LoginState): cz.applifting.graphqlempty.Reducer<LoginState, LoginEvent>(initialState) {
     override fun reduce(oldState: LoginState, event: LoginEvent) {
         when (event) {
             is LoginEvent.ShowError -> {

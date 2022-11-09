@@ -2,17 +2,17 @@ package cz.applifting.graphqlempty.graphql.launchList
 
 import androidx.compose.runtime.Immutable
 import cz.applifting.graphqlEmpty.LaunchListQuery
-import cz.applifting.graphqlempty.common.Action
-import cz.applifting.graphqlempty.common.Event
-import cz.applifting.graphqlempty.common.State
+import cz.applifting.graphqlempty.Action
+import cz.applifting.graphqlempty.Event
+import cz.applifting.graphqlempty.State
 
-sealed class LaunchListEvent: Event {
+sealed class LaunchListEvent: cz.applifting.graphqlempty.Event {
     object ShowError: LaunchListEvent()
     object ShowLoading: LaunchListEvent()
     data class ShowData(val data: List<LaunchListQuery.Launch>, val cursor: String?, val hasMore: Boolean): LaunchListEvent()
 }
 
-sealed class LaunchListAction: Action {
+sealed class LaunchListAction: cz.applifting.graphqlempty.Action {
     object FetchData: LaunchListAction()
 }
 
@@ -23,7 +23,7 @@ data class LaunchListState(
     val hasMore: Boolean,
     val cursor: String?,
     val data: List<LaunchListQuery.Launch>
-): State {
+): cz.applifting.graphqlempty.State {
     companion object {
         fun initial() = LaunchListState(false, false, false, null, listOf())
     }

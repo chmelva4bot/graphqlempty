@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.common
+package cz.applifting.graphqlempty
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
