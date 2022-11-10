@@ -39,7 +39,7 @@ espresso = "3.4.0"
 androidxKtx = {module = "androidx.core:core-ktx", version.ref = "androidxKtx"}
 androidxLifecycle = {module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle"}
 androidxLifecycleViewModelCompose = {module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle"}
-composeActiviy = {module = "androidx.activity:activity-compose", version.ref = "composeActivity"}
+composeActivity = {module = "androidx.activity:activity-compose", version.ref = "composeActivity"}
 composeUi = {module = "androidx.compose.ui:ui", version.ref = "composeUi"}
 composePreview = {module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeUi"}
 composeIcons = {module = "androidx.compose.material:material-icons-extended", version.ref = "composeUi"}

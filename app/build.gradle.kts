@@ -51,7 +51,7 @@ android {
 
 dependencies {
 
-    implementation project(":common-android")
+    implementation(project(":common-android"))
 
     implementation(libs.androidxKtx)
     implementation(libs.androidxLifecycle)
@@ -82,9 +82,9 @@ dependencies {
     debugImplementation(libs.bundles.debug)
 }
 
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}
 
 apollo {
     packageName.set("cz.applifting.graphqlEmpty")
