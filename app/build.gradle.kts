@@ -61,7 +61,6 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.2.0'
     implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha03'
-    testImplementation 'junit:junit:4.12'
     def nav_version = "2.5.2"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
@@ -94,7 +93,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test"
     testImplementation("io.mockk:mockk:1.13.2")
-    testImplementation 'app.cash.turbine:turbine:0.12.1'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
@@ -103,11 +102,9 @@ dependencies {
 }
 
 kapt {
-    correctErrorTypes true
+    correctErrorTypes = true
 }
 
 apollo {
-
     packageName.set("cz.applifting.graphqlEmpty")
-
 }
