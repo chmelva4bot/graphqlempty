@@ -53,19 +53,16 @@ dependencies {
 
     implementation project(":common-android")
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.2.0'
-    implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha03'
-    def nav_version = "2.5.2"
+    implementation(libs.androidxKtx)
+    implementation(libs.androidxLifecycle)
+    implementation(libs.androidxLifecycleViewModelCompose)
+    implementation(libs.composeActivity)
+    implementation(libs.bundles.composeUi)
 
-    implementation "androidx.navigation:navigation-compose:$nav_version"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
-    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    implementation(libs.composeNav)
+    implementation(libs.coilCompose)
+    implementation(libs.androidxSecurity)
 
     implementation("com.apollographql.apollo3:apollo-runtime:3.6.2")
 

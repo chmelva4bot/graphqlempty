@@ -13,7 +13,7 @@ composeNav = "2.5.2"
 androidxKtx = "1.7.0"
 androidxLifecycle = "2.5.1"
 androidxSecurity = "1.1.0-alpha03"
-material = "1.2.0"
+
 
 coilCompose = "2.2.2"
 apollo3Runtime = "3.6.2"
@@ -36,10 +36,20 @@ androidxTestJunit = "1.1.3"
 espresso = "3.4.0"
 
 [libraries]
-
-
+androidxKtx = {module = "androidx.core:core-ktx", version.ref = "androidxKtx"}
+androidxLifecycle = {module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle"}
+androidxLifecycleViewModelCompose = {module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle"}
+composeActiviy = {module = "androidx.activity:activity-compose", version.ref = "composeActivity"}
+composeUi = {module = "androidx.compose.ui:ui", version.ref = "composeUi"}
+composePreview = {module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeUi"}
+composeIcons = {module = "androidx.compose.material:material-icons-extended", version.ref = "composeUi"}
+composeMaterial = {module = "androidx.compose.material:material", version.ref = "composeUi"}
+androidxSecurity = {module = "androidx.security:security-crypto-ktx", version.ref = "androidxSecurity"}
+composeNav = {module = "androidx.navigation:navigation-compose", version.ref = "composeNav"}
+coilCompose = {module = "io.coil-kt:coil-compose", version.ref = "coilCompose"}
 
 [bundles]
+composeUi = ["composeUi", "composePreview", "composeIcons", "composeMaterial"]
 
 
 
