@@ -1,0 +1,28 @@
+[versions]
+androidApplicationPlugin = "7.4.0-beta02"
+androidLibraryPlugin = "7.4.0-beta02"
+kotlinAndroidPlugin = "1.7.0"
+apollo3Plugin = "3.6.2"
+daggerHiltAndroidPlugin = "2.44"
+googleServicesPlugin = "4.3.13"
+
+composeUi = "1.2.0"
+
+
+
+[libraries]
+
+
+
+[bundles]
+
+
+
+[plugins]
+
+androidApplicationPlugin = {id = "com.android.application", version.ref = "androidApplicationPlugin"}
+androidLibraryPlugin = {id = "com.android.library", version.ref = "androidLibraryPlugin"}
+kotlinAndroidPlugin = {id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroidPlugin"}
+apollo3Plugin = {id = "com.apollographql.apollo3", version.ref = "apollo3Plugin"}
+daggerHiltAndroidPlugin = {id = "com.google.dagger.hilt.android", version.ref = "daggerHiltAndroidPlugin"}
+googleServicesPlugin = {id = "com.google.gms.google-services", version.ref = "googleServicesPlugin"}
