@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "graphqlEmpty"
 include ':app'
 include ':common-android'
+include ':graphql'

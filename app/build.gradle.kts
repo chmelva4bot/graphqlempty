@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplicationPlugin)
     alias(libs.plugins.kotlinAndroidPlugin)
-    alias(libs.plugins.apollo3Plugin)
 //    alias(libs.plugins.daggerHiltAndroidPlugin)
     alias(libs.plugins.googleServicesPlugin)
 }
@@ -52,6 +51,7 @@ android {
 dependencies {
 
     implementation(project(":common-android"))
+    implementation(project(":graphql"))
 
     implementation(libs.androidxKtx)
     implementation(libs.androidxLifecycle)
@@ -62,9 +62,7 @@ dependencies {
 
     implementation(libs.composeNav)
     implementation(libs.coilCompose)
-    implementation(libs.androidxSecurity)
 
-    implementation(libs.apollo3)
 
 //    implementation 'com.google.dagger:hilt-android:2.44'
 //    kapt 'com.google.dagger:hilt-compiler:2.44'
@@ -85,7 +83,3 @@ dependencies {
 //kapt {
 //    correctErrorTypes = true
 //}
-
-apollo {
-    packageName.set("cz.applifting.graphqlEmpty")
-}
