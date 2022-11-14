@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import cz.applifting.graphqlempty.graphql.login.User
-import cz.applifting.graphqlempty.navigation.Screen
+import cz.applifting.graphqlempty.nav_common.Screen
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 

@@ -6,5 +6,5 @@ import org.koin.dsl.module
 val navigationModule = module {
 
 
-    viewModel { OptionsMenuViewModel() }
+    viewModel { cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel() }
 }

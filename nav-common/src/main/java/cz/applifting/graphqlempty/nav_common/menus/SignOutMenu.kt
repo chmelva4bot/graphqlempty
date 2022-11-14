@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.firebase.chat
+package cz.applifting.graphqlempty.nav_common.menus
 
 import android.util.Log
 import androidx.compose.material.DropdownMenu
@@ -15,13 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import cz.applifting.graphqlempty.navigation.OptionMenuItems
-import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FirebaseMenu(optionsMenuViewModel: OptionsMenuViewModel) {
+fun SignOutMenu(optionsMenuViewModel: cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel) {
 
     var showMenu by remember { mutableStateOf(false) }
     val scope  = rememberCoroutineScope()
@@ -37,7 +34,7 @@ fun FirebaseMenu(optionsMenuViewModel: OptionsMenuViewModel) {
     ) {
         DropdownMenuItem(onClick = {
             scope.launch {
-                optionsMenuViewModel.onOptionsItemSelected(OptionMenuItems.SignOut)
+                optionsMenuViewModel.onOptionsItemSelected(cz.applifting.graphqlempty.nav_common.OptionMenuItems.SignOut)
                 showMenu = false
             }
         }) {

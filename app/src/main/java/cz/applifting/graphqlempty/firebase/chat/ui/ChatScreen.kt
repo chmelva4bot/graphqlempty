@@ -2,7 +2,6 @@ package cz.applifting.graphqlempty.firebase.chat.ui
 
 import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -34,7 +33,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,16 +47,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.firebase.ui.auth.AuthUI
 import cz.applifting.graphqlempty.common.TestTags
 import cz.applifting.graphqlempty.firebase.chat.data.ChatMessage
-import cz.applifting.graphqlempty.navigation.OptionMenuItems
-import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
-import cz.applifting.graphqlempty.navigation.Screen
+import cz.applifting.graphqlempty.nav_common.OptionMenuItems
+import cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel
+import cz.applifting.graphqlempty.nav_common.Screen
 import cz.applifting.graphqlempty.ui.theme.LightGray
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -67,7 +64,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ChatScreen(navController: NavController, optionsMenuViewModel: OptionsMenuViewModel) {
+fun ChatScreen(navController: NavController, optionsMenuViewModel: cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel) {
 
     //    val viewModel: ChatViewModel = hiltViewModel()
     val viewModel: ChatViewModel = koinViewModel()
@@ -88,7 +85,7 @@ fun ChatScreen(navController: NavController, optionsMenuViewModel: OptionsMenuVi
     LaunchedEffect(true) {
         optionsMenuViewModel.optionsFlow.collect {
             when (it) {
-                OptionMenuItems.SignOut -> {
+                cz.applifting.graphqlempty.nav_common.OptionMenuItems.SignOut -> {
                     AuthUI.getInstance().signOut(ctx)
                 }
             }
@@ -98,8 +95,8 @@ fun ChatScreen(navController: NavController, optionsMenuViewModel: OptionsMenuVi
     ChatScreenContainer(
         viewModel = viewModel,
         goToAuth = {
-            navController.navigate(Screen.FirebaseLogin.route) {
-            popUpTo(Screen.FirebaseLogin.route) {
+            navController.navigate(cz.applifting.graphqlempty.nav_common.Screen.FirebaseLogin.route) {
+            popUpTo(cz.applifting.graphqlempty.nav_common.Screen.FirebaseLogin.route) {
                 inclusive = true
             }}
         },

@@ -24,14 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import cz.applifting.graphqlempty.navigation.AppNavHost
-import cz.applifting.graphqlempty.navigation.OptionsMenuViewModel
-import cz.applifting.graphqlempty.navigation.Screen
+import cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel
+import cz.applifting.graphqlempty.nav_common.Screen
 import cz.applifting.graphqlempty.navigation.navDrawer.AppDrawer
 import cz.applifting.graphqlempty.navigation.navDrawer.NavDrawerItem
 import cz.applifting.graphqlempty.ui.theme.GraphqlEmptyTheme
@@ -69,11 +64,11 @@ fun App() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val optionsMenuViewModel: OptionsMenuViewModel = koinViewModel()
+    val optionsMenuViewModel: cz.applifting.graphqlempty.nav_common.OptionsMenuViewModel = koinViewModel()
 
     val drawerItems by remember(navBackStackEntry) {
         derivedStateOf {
-            Screen.getTopLevelScreens()
+            cz.applifting.graphqlempty.nav_common.Screen.getTopLevelScreens()
                 .map {
                     NavDrawerItem(it.route, it.title, it.icon, navBackStackEntry?.destination?.route == it.route)
                 }
@@ -81,13 +76,13 @@ fun App() {
     }
     val title by remember(navBackStackEntry) {
         derivedStateOf {
-            Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").title
+            cz.applifting.graphqlempty.nav_common.Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").title
         }
     }
 
     val menu by remember(navBackStackEntry) {
         derivedStateOf {
-            Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").optionsMenu
+            cz.applifting.graphqlempty.nav_common.Screen.findScreenByRoute(navBackStackEntry?.destination?.route?: "").optionsMenu
         }
     }
 

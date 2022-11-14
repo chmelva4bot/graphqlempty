@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.androidLibraryPlugin)
     alias(libs.plugins.kotlinAndroidPlugin)
-    alias(libs.plugins.apollo3Plugin)
 }
 
 android {
-    namespace = "cz.applifting.graphqlempty.graphql"
+    namespace = "cz.applifting.graphqlempty.nav_common"
     compileSdk = 32
 
     defaultConfig {
@@ -38,20 +37,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":common-android"))
-    implementation(project(":nav-common"))
-
     implementation(libs.androidxKtx)
     implementation(libs.androidxLifecycle)
     implementation(libs.androidxLifecycleViewModelCompose)
     implementation(libs.bundles.composeUi)
-    implementation(libs.coilCompose)
-    implementation(libs.androidxSecurity)
-    implementation(libs.apollo3)
-    implementation(libs.koinCompose)
-    debugImplementation(libs.bundles.debug)
-}
-
-apollo {
-    packageName.set("cz.applifting.graphqlEmpty")
 }

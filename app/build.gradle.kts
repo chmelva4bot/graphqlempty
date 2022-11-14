@@ -50,6 +50,7 @@ android {
 
 dependencies {
 
+    implementation(project(":nav-common"))
     implementation(project(":common-android"))
     implementation(project(":graphql"))
 

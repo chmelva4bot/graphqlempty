@@ -1,4 +1,4 @@
-package cz.applifting.graphqlempty.navigation
+package cz.applifting.graphqlempty.nav_common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
