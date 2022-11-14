@@ -73,8 +73,8 @@ dependencies {
 
     implementation(libs.koinCompose)
 
+    implementation(platform(libs.firebaseBOM))
     implementation(libs.bundles.firebase)
-
 
     testImplementation(libs.bundles.test)
 
