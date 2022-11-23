@@ -24,7 +24,7 @@
             android:theme="@style/Theme.GraphqlEmpty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="graphqlempty.intent.action.Launch" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -32,7 +32,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <service android:name=".firebase.messaging.ChatMessagingService"
+        <service android:name=".firebasechat.messaging.ChatMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

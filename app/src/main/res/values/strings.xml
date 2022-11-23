@@ -10,6 +10,4 @@
     <string name="title_firebaseChat">Firebase Chat</string>
     <string name="FirebaseLogin">firebaseLogin</string>
     <string name="title_firebaseLogin">Firebase Login</string>
-    <string name="channel_main">channel_main</string>
-    <string name="channel_main_name">Main Channel</string>
 </resources>

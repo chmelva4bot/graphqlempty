@@ -1,25 +1,18 @@
 plugins {
-    alias(libs.plugins.androidApplicationPlugin)
-    alias(libs.plugins.kotlinAndroidPlugin)
-//    alias(libs.plugins.daggerHiltAndroidPlugin)
-    alias(libs.plugins.googleServicesPlugin)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "cz.applifting.graphqlempty"
+    namespace = "cz.applifting.graphqlempty.firebasechat"
     compileSdk = 32
 
     defaultConfig {
-        applicationId = "cz.applifting.graphqlempty"
         minSdk = 26
         targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -41,24 +34,23 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeUi.get()
     }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-
-    implementation(project(":nav-common"))
     implementation(project(":common-android"))
-    implementation(project(":graphql"))
-    implementation(project(":firebase-chat"))
+    implementation(project(":nav-common"))
 
     implementation(libs.androidxKtx)
-    implementation(libs.composeActivity)
+    implementation(libs.androidxLifecycle)
+    implementation(libs.androidxLifecycleViewModelCompose)
     implementation(libs.bundles.composeUi)
-    implementation(libs.composeNav)
-
+    implementation(libs.coilCompose)
     implementation(libs.koinCompose)
+
+    implementation(platform(libs.firebaseBOM))
+    implementation(libs.bundles.firebase)
+
+    testImplementation(libs.bundles.test)
+    androidTestImplementation(libs.bundles.androidTest)
+    debugImplementation(libs.bundles.debug)
 }

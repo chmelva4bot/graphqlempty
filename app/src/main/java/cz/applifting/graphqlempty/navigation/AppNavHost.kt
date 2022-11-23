@@ -8,8 +8,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import cz.applifting.graphqlempty.firebase.chat.ui.ChatScreen
-import cz.applifting.graphqlempty.firebase.login.FirebaseLoginScreen
+import cz.applifting.graphqlempty.firebasechat.chat.ui.ChatScreen
+import cz.applifting.graphqlempty.firebasechat.login.FirebaseLoginScreen
 import cz.applifting.graphqlempty.graphql.launchDetail.LaunchDetailScreen
 import cz.applifting.graphqlempty.graphql.launchList.LaunchListScreen
 
@@ -29,7 +29,16 @@ fun AppNavHost(navController: NavHostController, snackbarHostState: SnackbarHost
             )
         }
         composable(cz.applifting.graphqlempty.nav_common.Screen.GraphQLLogin.route) { cz.applifting.graphqlempty.graphql.login.LoginScreen(navController = navController) }
-        composable(cz.applifting.graphqlempty.nav_common.Screen.FirebaseChat.route) { ChatScreen(navController = navController, optionsMenuViewModel) }
-        composable(cz.applifting.graphqlempty.nav_common.Screen.FirebaseLogin.route) { FirebaseLoginScreen(navController = navController) }
+        composable(cz.applifting.graphqlempty.nav_common.Screen.FirebaseChat.route) {
+            ChatScreen(
+                navController = navController,
+                optionsMenuViewModel
+            )
+        }
+        composable(cz.applifting.graphqlempty.nav_common.Screen.FirebaseLogin.route) {
+            FirebaseLoginScreen(
+                navController = navController
+            )
+        }
     }
 }
