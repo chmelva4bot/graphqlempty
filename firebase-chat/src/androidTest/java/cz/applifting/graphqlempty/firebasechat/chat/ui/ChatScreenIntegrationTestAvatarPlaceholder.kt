@@ -18,7 +18,6 @@ import cz.applifting.graphqlempty.firebasechat.chat.data.IUploadImageUseCase
 import cz.applifting.graphqlempty.firebasechat.chat.data.MessageRepositoryFake
 import cz.applifting.graphqlempty.firebasechat.chat.data.SendMessageUseCase
 import cz.applifting.graphqlempty.firebasechat.chat.data.UploadImageUseCaseFake
-import cz.applifting.graphqlempty.ui.theme.GraphqlEmptyTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -68,16 +67,14 @@ class ChatScreenIntegrationTestAvatarPlaceholder {
 
 
         composeRule.setContent {
-            GraphqlEmptyTheme {
-                val scope = rememberCoroutineScope()
-                LaunchedEffect(true) {this.launch { fakeAuth.userFlow.emit(user) }}
-                cz.applifting.graphqlempty.firebasechat.chat.ui.ChatScreenContainer(viewModel = viewModel,
-                    goToAuth = {},
-                    imagePickedFlow = pickedFlow,
-                    onSelectImageClicked = {
-                        scope.launch { pickedFlow.emit(Uri.parse("https://picsum.photos/300/200")) }
-                    })
-            }
+            val scope = rememberCoroutineScope()
+            LaunchedEffect(true) {this.launch { fakeAuth.userFlow.emit(user) }}
+            cz.applifting.graphqlempty.firebasechat.chat.ui.ChatScreenContainer(viewModel = viewModel,
+                goToAuth = {},
+                imagePickedFlow = pickedFlow,
+                onSelectImageClicked = {
+                    scope.launch { pickedFlow.emit(Uri.parse("https://picsum.photos/300/200")) }
+                })
         }
     }
 
