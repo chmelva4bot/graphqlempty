@@ -119,43 +119,6 @@ class ChatViewModelTest {
     }
 
     @Test
-    fun `properly sends image msg_test_dispatcher`(): Unit = runTest {
-        setup(StandardTestDispatcher())
-        val collectJob = launch(UnconfinedTestDispatcher()) { vm.state.collect() {} }
-
-        val user = cz.applifting.graphqlempty.firebasechat.auth.BasicUser("uid", "name1", "photo1")
-        fakeAuth.userFlow.emit(user)
-        advanceUntilIdle()
-        assertNull(vm.state.value.user)
-        assertEquals(0, vm.state.value.messages.size)
-
-        val imgUriString = "https://picsum.photos/aaa"
-        val uriMock = mockk<Uri>()
-        every { uriMock.lastPathSegment } returns "aaa"
-        every { uriMock.toString() } returns imgUriString
-
-        vm.sendAction(cz.applifting.graphqlempty.firebasechat.chat.ui.ChatAction.SendImageMessage(uriMock))
-       runCurrent()
-
-        assertEquals(1, vm.state.value.messages.size)
-        var msg = vm.state.value.messages[0]
-        assertEquals(user.displayName, msg.name)
-        assertEquals(user.photoUrl, msg.photoUrl)
-        assertEquals(cz.applifting.graphqlempty.firebasechat.chat.ui.ChatViewModel.LOADING_IMAGE_URL, msg.imageUrl)
-        assertNull("Text null in img message", msg.text)
-
-        advanceUntilIdle()
-        assertEquals(1, vm.state.value.messages.size)
-        msg = vm.state.value.messages[0]
-        assertEquals(user.displayName, msg.name)
-        assertEquals(user.photoUrl, msg.photoUrl)
-        assertEquals(imgUriString, msg.imageUrl)
-        assertNull("Text null in img message", msg.text)
-
-        collectJob.cancel()
-    }
-
-    @Test
     fun `properly sends image msg`(): Unit = runBlocking(ImmediateTestDispatcher()) {
         setup(ImmediateTestDispatcher())
 
