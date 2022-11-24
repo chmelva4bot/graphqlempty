@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="GQLLaunchList">GQLLaunchList</string>
+    <string name="title_GQLLaunchList">Launch List</string>
+    <string name="GQLLaunchDetail">GQLLaunchDetail</string>
+    <string name="title_GQLLaunchDetail">GQLLaunchDetail</string>
+    <string name="GQLLogin">GQLLogin</string>
+    <string name="title_GQLLogin">Login</string>
+    <string name="FirebaseChat">firebaseChat</string>
+    <string name="title_firebaseChat">Firebase Chat</string>
+    <string name="FirebaseLogin">firebaseLogin</string>
+    <string name="title_firebaseLogin">Firebase Login</string>
+</resources>
